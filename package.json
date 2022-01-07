@@ -1,0 +1,24 @@
+{
+  "name": "4th-project-yunminblock",
+  "version": "1.0.0",
+  "description": "소윤이 보아라",
+  "main": "r_P2PServer.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/euphratesriver0216/4th-project-YunminBlock.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/euphratesriver0216/4th-project-YunminBlock/issues"
+  },
+  "homepage": "https://github.com/euphratesriver0216/4th-project-YunminBlock#readme",
+  "dependencies": {
+    "crypto-js": "^4.1.1",
+    "fs": "^0.0.1-security",
+    "merkle": "^0.6.0"
+  }
+}
