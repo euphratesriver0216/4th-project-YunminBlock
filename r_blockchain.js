@@ -1,4 +1,4 @@
-// 블록의 생성 검증  합의 알고리즘 포함 / 프로토콜을 변경하려면 여기서 수정
+// 블록의 생성 검증  합의 알고리즘 포함 / (프로토콜을 변경하려면 여기서 수정?)
 //createGenesisBlock() getBlocks() getLastBlock() createHash() calculateHash()
 //nextBlock(bodyData)  addBlock(bodyData)
 

@@ -94,6 +94,28 @@ function getAdjustDifficulty(lastBlock, blocks) {
     return preAdjustmentBlock.header.difficulty - 1;
   } else if (elapsedTime * 2 < expectedTime) {
     return preAdjustmentBlock.header.difficulty + 1;
+  } else {
+    return preAdjustmentBlock.header.difficulty;
   }
 }
+//현재 타임스템프 찍어주는 함수
+function getCurrentTimestamp() {
+  //Math.round 반올림함수
+  return Math.round(new Date().getTime() / 1000);
+}
+//유효한 타임스탬프인지 보는 함수
+function isValidTimestamp(newBlock, prevBlock) {
+  console.log("뺀거:", newBlock.header.timestamp - prevBlock.header.timestamp);
+  console.log(getCurrentTimestamp());
+  //5초이내에 생성되는 걸 막음
+  if (newBlock.header.timestamp - prevBlock.header.timestamp < 5) {
+    return false;
+  }
+  //검증자의 시간과 새로운 블록의 시간과 비교! 검증자가 검증하는데
+  //검증하는 시간이랑 만들어진 블록의 시간이 너무 차이가 나면 버림
+  if (getCurrentTimestamp() - newBlock.header.timestamp > 60) {
+    return false;
+  }
+}
+
 module.exports = { getVersion, getCurrentTimestamp };
