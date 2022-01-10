@@ -181,7 +181,7 @@ addBlock;
 //블록 추가하는 함수
 function addBlock(bodyData) {
   // const newBlock = nextBlock(bodyData);
-  // console.log(236425775);
+  // console.log("블록스찍히나", Blocks);
   Blocks.push(bodyData);
 }
 
@@ -322,7 +322,7 @@ function isValidTimestamp(newBlock, prevBlock) {
 }
 
 //다음블록생성 출력하기
-const block1 = nextBlock(["Test"]);
+// const block1 = nextBlock(["Test"]);
 // console.log(object);
 
 // addBlock(block1);
