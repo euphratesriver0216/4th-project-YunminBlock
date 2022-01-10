@@ -5,7 +5,11 @@
 const fs = require("fs");
 const merkle = require("merkle");
 const cryptojs = require("crypto-js"); //암호화
-const { getVersion, getCurrentTimestamp } = require("./r_utils");
+
+//예상 채굴시간을 변수로 설정한다
+const BLOCK_GENERATION_INTERVAL = 10; //second
+//난이도 조절 단위수를 변수로 설정한다
+const DIFFICULT_ADJUSTMENT_INTERVAL = 10; //in blocks
 
 //블록구조 헤더와 바디
 class Block {
@@ -16,23 +20,33 @@ class Block {
 }
 //헤더구조
 class BlockHeader {
-  constructor(version, previousHash, timestamp, merkleRoot, bit, nonce) {
+  constructor(
+    version,
+    index,
+    previousHash,
+    timestamp,
+    merkleRoot,
+    // bit,
+    difficulty,
+    nonce
+  ) {
     this.version = version;
     this.index = index;
     this.previousHash = previousHash;
     this.timestamp = timestamp;
     this.merkleRoot = merkleRoot;
-    this.bit = bit;
+    // this.bit = bit;
+    this.difficulty = difficulty; //채굴난이도. 아직안씀
     this.nonce = nonce;
   }
 }
 
-// //버전 계산하는 함수
-// function getVersion() {
-//   const package = fs.readFileSync("package.json");
-//   console.log(JSON.parse(package).version);
-//   return JSON.parse(package).version;
-// }
+//버전 계산하는 함수
+function getVersion() {
+  const package = fs.readFileSync("package.json");
+  console.log(JSON.parse(package).version);
+  return JSON.parse(package).version;
+}
 
 //제네시스 블록
 function createGenesisBlock() {
@@ -46,10 +60,12 @@ function createGenesisBlock() {
   const body = ["윤민팀 제네시스바디"];
   const tree = merkle("sha256").sync(body);
   const merkleRoot = tree.root() || "0".repeat(64);
-  const bit = 0;
-  const nonce = 0;
+  // const bit = 0;
+
   //난이도 추가
-  const difficulty = 0;
+  const difficulty = 2;
+
+  const nonce = 10;
 
   //헤더에 대입
   const header = new BlockHeader(
@@ -58,15 +74,16 @@ function createGenesisBlock() {
     previousHash,
     timestamp,
     merkleRoot,
-    bit,
-    nonce,
-    difficulty
+    // bit,
+    difficulty,
+    nonce
   );
   return new Block(header, body);
 }
 
 //블록 여러개 저장할 수 있는 배열을 만들어줌
 let Blocks = [createGenesisBlock()];
+console.log(Blocks);
 
 //현재 있는 함수들 다 가져오는 함수
 function getBlocks() {
@@ -88,9 +105,9 @@ function createHash(data) {
     previousHash,
     timestamp,
     merkleRoot,
-    bit,
-    nonce,
+    // bit,
     difficulty,
+    nonce,
   } = data.header;
   const blockString =
     version +
@@ -98,9 +115,9 @@ function createHash(data) {
     previousHash +
     timestamp +
     merkleRoot +
-    bit +
-    nonce +
-    difficulty;
+    // bit +
+    difficulty +
+    nonce;
   //다합쳐서 해시로 만들고 리턴
   const hash = cryptojs.SHA256(blockString).toString();
   return hash;
@@ -113,9 +130,9 @@ function calculateHash(
   previousHash,
   timestamp,
   merkleRoot,
-  bit,
-  nonce,
-  difficulty
+  // bit,
+  difficulty,
+  nonce
 ) {
   //헤더의 값에 변경된 nonce값을 추가하고 모두 더한 string을 가지고 암호화해서 hash내보냄
   const blockString =
@@ -124,10 +141,10 @@ function calculateHash(
     previousHash +
     timestamp +
     merkleRoot +
-    bit +
-    nonce +
+    // bit +
     difficulty +
     nonce;
+
   const hash = cryptojs.SHA256(blockString).toString();
   return hash;
 }
@@ -142,11 +159,12 @@ function nextBlock(bodyData) {
   //이전 블록의 해시값
   const previousHash = createHash(prevBlock);
   const timestamp = parseInt(Date.now() / 1000);
-  const tree = merkle("sha256").sync(bodyDate);
+  const tree = merkle("sha256").sync(bodyData);
   const merkleRoot = tree.root() || "0".repeat(64);
   //난이도 조절함수 추가 //utils에 getDifficulty 함수 있음요
   const difficulty = getDifficulty(getBlocks());
 
+  console.log("나니도", difficulty);
   const header = findBlock(
     version,
     index,
@@ -155,7 +173,7 @@ function nextBlock(bodyData) {
     merkleRoot,
     difficulty
   );
-
+  console.log("넥스트", header);
   return new Block(header, bodyData);
 }
 
@@ -164,3 +182,160 @@ function addBlock(bodyData) {
   const newBlock = nextBlock(bodyData);
   Blocks.push(newBlock);
 }
+
+function hexToBinary(s) {
+  //헤더부분을 sha256 암호화한 결과
+  //16진수 64자리를 2진수로 변환하기
+  const lookupTable = {
+    0: "0000",
+    1: "0001",
+    2: "0010",
+    3: "0011",
+    4: "0100",
+    5: "0101",
+    6: "0110",
+    7: "0111",
+    8: "1000",
+    9: "1001",
+    A: "1010",
+    B: "1011",
+    C: "1100",
+    D: "1101",
+    E: "1110",
+    F: "1111",
+  };
+
+  let ret = "";
+  for (let i = 0; i < s.length; i++) {
+    if (lookupTable[s[i]]) {
+      ret += lookupTable[s[i]];
+    } else {
+      return null;
+    }
+  }
+  return ret;
+}
+
+function hashMatchesDifficulty(hash, difficulty) {
+  //difficulty 난이도가 높아짐에 따라 0개수가 늘어남
+  const requirePrefix = "0".repeat(difficulty);
+  //높으면 높을수록 조건을 맞츠기가 까다로워짐
+  return hash.startsWith(requirePrefix);
+}
+
+function findBlock(
+  currentVersion,
+  nextIndex,
+  previousHash,
+  nextTimestamp,
+  merkleRoot,
+  difficulty
+) {
+  //
+  let nonce = 0;
+  while (true) {
+    var hash = calculateHash(
+      currentVersion,
+      nextIndex,
+      previousHash,
+      nextTimestamp,
+      merkleRoot,
+      difficulty,
+      nonce
+    );
+    console.log(hash);
+    if (hashMatchesDifficulty(hash, difficulty)) {
+      return new BlockHeader(
+        currentVersion,
+        nextIndex,
+        previousHash,
+        nextTimestamp,
+        merkleRoot,
+        difficulty,
+        nonce
+      );
+    }
+
+    nonce++;
+  }
+}
+
+function getDifficulty(blocks) {
+  //마지막 블럭
+  const lastBlock = blocks[blocks.length - 1];
+  //마지막 블럭헤더인덱스가 0이 아니고 난이도조절수만큼 나눈 나머지가 0이면
+  if (
+    lastBlock.header.index !== 0 &&
+    lastBlock.header.index % DIFFICULT_ADJUSTMENT_INTERVAL === 0
+  ) {
+    //난이도 조절함수 실행
+    return getAdjustDifficulty(lastBlock, blocks);
+  }
+  //난이도 리턴
+  return lastBlock.header.difficulty;
+}
+
+//난이도 조절함수
+function getAdjustDifficulty(lastBlock, blocks) {
+  //이전조절블록 = [블록길이-10]의 블록
+  const preAdjustmentBlock =
+    blocks[blocks.length - DIFFICULT_ADJUSTMENT_INTERVAL];
+  //경과시간(생성되는데 걸린 시간) = 마지막블록의 헤더가 생성된 시간 - [블록길이-10]의 블록의 생성시간
+  const elapsedTime =
+    lastBlock.header.timestamp - preAdjustmentBlock.header.timestamp;
+  //예상시간 = 예상채굴시간(10초) * 난이도조절단위수(블록 10.. 인덱스라고 걍 이해함.)
+  const expectedTime =
+    BLOCK_GENERATION_INTERVAL * DIFFICULT_ADJUSTMENT_INTERVAL;
+
+  //생성시간 /2는 우리가 임의로 넣어두는 알고리즘임
+  if (elapsedTime / 2 > expectedTime) {
+    return preAdjustmentBlock.header.difficulty - 1;
+  } else if (elapsedTime * 2 < expectedTime) {
+    return preAdjustmentBlock.header.difficulty + 1;
+  } else {
+    return preAdjustmentBlock.header.difficulty;
+  }
+}
+
+//현재 타임스템프 찍어주는 함수
+function getCurrentTimestamp() {
+  //Math.round 반올림함수
+  return Math.round(new Date().getTime() / 1000);
+}
+
+//유효한 타임스탬프인지 보는 함수
+function isValidTimestamp(newBlock, prevBlock) {
+  console.log("뺀거:", newBlock.header.timestamp - prevBlock.header.timestamp);
+  console.log(getCurrentTimestamp());
+  //5초이내에 생성되는 걸 막음
+  if (newBlock.header.timestamp - prevBlock.header.timestamp < 5) {
+    return false;
+  }
+  //검증자의 시간과 새로운 블록의 시간과 비교! 검증자가 검증하는데
+  //검증하는 시간이랑 만들어진 블록의 시간이 너무 차이가 나면 버림
+  if (getCurrentTimestamp() - newBlock.header.timestamp > 60) {
+    return false;
+  }
+  return true;
+}
+
+//다음블록생성 출력하기
+const block1 = nextBlock(["Test"]);
+// console.log(object);
+
+// addBlock(block1);
+console.log("다음블록", block1);
+// console.log(add);
+
+module.exports = {
+  hashMatchesDifficulty,
+  isValidTimestamp,
+  getBlocks,
+  createHash,
+  Blocks,
+  getLastBlock,
+  nextBlock,
+  addBlock,
+  getVersion,
+  createGenesisBlock,
+}; //내보내주는거
