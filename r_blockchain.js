@@ -176,11 +176,13 @@ function nextBlock(bodyData) {
   console.log("넥스트", header);
   return new Block(header, bodyData);
 }
+addBlock;
 
 //블록 추가하는 함수
 function addBlock(bodyData) {
-  const newBlock = nextBlock(bodyData);
-  Blocks.push(newBlock);
+  // const newBlock = nextBlock(bodyData);
+  // console.log(236425775);
+  Blocks.push(bodyData);
 }
 
 function hexToBinary(s) {
@@ -243,7 +245,7 @@ function findBlock(
       difficulty,
       nonce
     );
-    console.log(hash);
+    // console.log(hash);
     if (hashMatchesDifficulty(hash, difficulty)) {
       return new BlockHeader(
         currentVersion,
@@ -324,7 +326,7 @@ const block1 = nextBlock(["Test"]);
 // console.log(object);
 
 // addBlock(block1);
-console.log("다음블록", block1);
+// console.log("다음블록", block1);
 // console.log(add);
 
 module.exports = {
