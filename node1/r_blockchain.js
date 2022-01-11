@@ -184,6 +184,20 @@ function addBlock(bodyData) {
   Blocks.push(bodyData);
 }
 
+function replaceChain(newBlocks) {
+  if (isValidChain(newBlocks)) {
+    if (
+      newBlocks.length > Blocks.length ||
+      (newBlocks.length === Blocks.length && random.boolean())
+    ) {
+      Blocks = newBlocks;
+      broadcast(responseLatestMsg());
+    }
+  } else {
+    console.log("받은 원장에 문제가 있음");
+  }
+}
+
 function hexToBinary(s) {
   //헤더부분을 sha256 암호화한 결과
   //16진수 64자리를 2진수로 변환하기
@@ -339,4 +353,5 @@ module.exports = {
   addBlock,
   getVersion,
   createGenesisBlock,
+  replaceChain,
 }; //내보내주는거

@@ -2,13 +2,14 @@
 // 사용자와 노드간의 통신
 
 //포트설정
-const p2p_port = process.env.P2P_PORT || 6001;
+const p2p_port = process.env.P2P_PORT || 6002;
 const WebSocket = require("ws");
 const {
   createHash,
   addBlock,
   getLastBlock,
   getBlocks,
+  replaceChain,
 } = require("./r_blockchain");
 
 //p2p서버 초기화하는 함수
@@ -20,7 +21,7 @@ function initP2PServer(test_port) {
   console.log("Listening webSocket port : " + test_port);
 }
 
-initP2PServer(6001);
+initP2PServer(6002);
 
 let sockets = [];
 
@@ -28,6 +29,7 @@ function initConnection(ws) {
   sockets.push(ws);
   initMessageHandler(ws);
   initErrorHandler(ws);
+  write(ws, queryLastestMsg());
 }
 
 function getSockets() {
@@ -45,6 +47,7 @@ function broadcast(message) {
     write(socket, message);
   });
 }
+//
 
 function connectToPeers(newPeers) {
   newPeers.forEach((peer) => {
@@ -92,14 +95,14 @@ function initMessageHandler(ws) {
 //마지막 최신 블록 담아서 보내줌
 function responseLatestMsg() {
   return {
-    type: RESPONSE_BLOCKCHAIN,
+    type: MessageType.RESPONSE_BLOCKCHAIN,
     data: JSON.stringify([getLastBlock()]),
   };
 }
 //블록들 다 가져와 보내줌
 function responseAllChainMsg() {
   return {
-    type: RESPONSE_BLOCKCHAIN,
+    type: MessageType.RESPONSE_BLOCKCHAIN,
     data: JSON.stringify(getBlocks()),
   };
 }
@@ -135,14 +138,14 @@ function handleBlockChainResponse(message) {
 
 function queryAllMsg() {
   return {
-    type: QUERY_ALL,
+    type: MessageType.QUERY_ALL,
     data: null,
   };
 }
 
 function queryLastestMsg() {
   return {
-    type: QUERY_LATEST,
+    type: MessageType.QUERY_LATEST,
     data: null,
   };
 }
@@ -162,4 +165,4 @@ function closeConnection(ws) {
   sockets.splice(sockets.indexOf(ws), 1);
 }
 
-module.exports = { connectToPeers, getSockets };
+module.exports = { connectToPeers, getSockets, broadcast };
