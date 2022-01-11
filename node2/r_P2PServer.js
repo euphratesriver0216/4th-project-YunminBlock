@@ -165,4 +165,4 @@ function closeConnection(ws) {
   sockets.splice(sockets.indexOf(ws), 1);
 }
 
-module.exports = { connectToPeers, getSockets, broadcast };
+module.exports = { connectToPeers, getSockets, broadcast, responseLatestMsg };

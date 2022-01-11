@@ -5,6 +5,7 @@
 const fs = require("fs");
 const merkle = require("merkle");
 const cryptojs = require("crypto-js"); //암호화
+const { isValidChain } = require("./r_checkValidBlock");
 
 //예상 채굴시간을 변수로 설정한다
 const BLOCK_GENERATION_INTERVAL = 10; //second

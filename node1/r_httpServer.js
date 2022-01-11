@@ -8,9 +8,14 @@ const {
   getVersion,
   addBlock,
 } = require("./r_blockchain");
-const { connectToPeers, getSockets } = require("./r_P2PServer");
+const {
+  connectToPeers,
+  getSockets,
+  broadcast,
+  responseLatestMsg,
+} = require("./r_P2PServer");
 const { getPublicKeyFromWallet, initWallet } = require("./r_encryption");
-const { broadcast } = require("./r_P2PServer");
+
 const http_port = process.env.HTTP_PORT || 3001;
 
 function initHttpServer() {
@@ -45,7 +50,8 @@ function initHttpServer() {
     console.log(data);
     const block = nextBlock(data);
     addBlock(block);
-    broadcast(block);
+    // broadcast(block)
+    broadcast(responseLatestMsg());
     res.send(getBlocks());
   });
   app.post("/stop", (req, res) => {

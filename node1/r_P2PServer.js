@@ -2,7 +2,7 @@
 // 사용자와 노드간의 통신
 
 //포트설정
-const p2p_port = process.env.P2P_PORT || 6002;
+const p2p_port = process.env.P2P_PORT || 6001;
 const WebSocket = require("ws");
 const {
   createHash,
@@ -21,7 +21,7 @@ function initP2PServer(test_port) {
   console.log("Listening webSocket port : " + test_port);
 }
 
-initP2PServer(6002);
+initP2PServer(6001);
 
 let sockets = [];
 
@@ -165,4 +165,4 @@ function closeConnection(ws) {
   sockets.splice(sockets.indexOf(ws), 1);
 }
 
-module.exports = { connectToPeers, getSockets, broadcast };
+module.exports = { connectToPeers, getSockets, broadcast, responseLatestMsg };

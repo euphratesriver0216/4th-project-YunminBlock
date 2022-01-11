@@ -4,12 +4,13 @@
 //데이터 필드로부터 계산한 머클루트와 블록헤더의 머클루트가 동일한지
 //이 조건 다 맞으면 올바른 구조체이다
 const {
-  Blocks,
-  getLastBlock,
-  createHash,
-  nextBlock,
-  isValidTimestamp,
+  // Blocks,
+  // getLastBlock,
+  // createHash,
+  // nextBlock,
+  // isValidTimestamp,
 } = require("./r_blockchain.js");
+
 const merkle = require("merkle");
 
 function isValidBlockStructure(block) {
@@ -26,6 +27,7 @@ function isValidBlockStructure(block) {
 }
 
 function isValidNewBlock(newBlock, prevBlock) {
+  const { createHash, isValidTimestamp } = require("./r_blockchain");
   if (isValidBlockStructure(newBlock) === false) {
     console.log("Invalid Block Structure");
     return false;
@@ -70,12 +72,14 @@ function isValidChain(newBlocks) {
   }
   return true;
 }
-const block = nextBlock(["new Tr"]);
-const chain = isValidChain(block);
-console.log(chain);
+// const block = nextBlock(["new Tr"]);
+// const chain = isValidChain(block);
+// console.log(chain);
 
 function addBlock(newBlock) {
+  const { getLastBlock } = require("./r_blockchain");
   if (isValidNewBlock(newBlock, getLastBlock())) {
+    const { Blocks } = require("./r_blockchain");
     Blocks.push(newBlock);
     return true;
   }

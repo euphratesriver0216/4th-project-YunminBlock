@@ -4,7 +4,7 @@ const fs = require("fs");
 //타원곡선개념을 사용한 다지털 터널 알고리즘을 짤거임
 // 타원 곡선 디지털 서명 알고리즘
 const ecdsa = require("elliptic");
-const { generateKey } = require("crypto");
+// const { generateKey } = require("crypto");
 const ec = new ecdsa.ec("secp256k1");
 
 const privateKeyLocation =
