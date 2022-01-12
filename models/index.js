@@ -11,14 +11,6 @@ const sequelize = new Sequelize(
   config
 );
 
-//시도
-// const sequelize = new Sequelize(
-//   config.database,
-//   config.username,
-//   config.password,
-//   config
-// );
-
 db.sequelize = sequelize;
 
 module.exports = db;
