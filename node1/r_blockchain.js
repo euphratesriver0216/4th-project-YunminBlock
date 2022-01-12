@@ -177,6 +177,7 @@ function nextBlock(bodyData) {
   console.log("넥스트", header);
   return new Block(header, bodyData);
 }
+addBlock;
 
 //블록 추가하는 함수
 function addBlock(bodyData) {
