@@ -22,7 +22,13 @@
     "express": "^4.17.2",
     "fs": "^0.0.1-security",
     "merkle": "^0.6.0",
+    "mongoose": "^6.1.6",
+    "morgan": "^1.10.0",
+    "nunjucks": "^3.2.3",
     "websocket": "^1.0.34",
     "ws": "^8.4.0"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.15"
   }
 }
