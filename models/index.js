@@ -1,4 +1,5 @@
 const Sequelize = require("sequelize");
+const Blockchain = require("./blockchain");
 const env = process.env.NODE_ENV || "development";
 const config = require(__dirname + "/../config/config.json")[env];
 const db = {};
@@ -12,5 +13,9 @@ const sequelize = new Sequelize(
 );
 
 db.sequelize = sequelize;
+db.Sequelize = Sequelize;
+db.Blockchain = Blockchain;
 
+Blockchain.init(sequelize);
+Blockchain.associate(db);
 module.exports = db;

@@ -53,7 +53,10 @@ function initHttpServer() {
     // broadcast(block)
     broadcast(responseLatestMsg());
     res.send(getBlocks());
+    //디비저장하는 함수 만들어보자
+    // addDB(getBlocks());
   });
+
   app.post("/stop", (req, res) => {
     res.send({ msg: "Stop Server!" });
     process.exit();
