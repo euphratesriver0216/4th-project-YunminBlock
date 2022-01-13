@@ -6,6 +6,7 @@ const fs = require("fs");
 const merkle = require("merkle");
 const cryptojs = require("crypto-js"); //암호화
 const { isValidChain } = require("./r_checkValidBlock");
+const { addDB } = require("./r_util");
 
 //예상 채굴시간을 변수로 설정한다
 const BLOCK_GENERATION_INTERVAL = 10; //second
@@ -179,10 +180,13 @@ function nextBlock(bodyData) {
 }
 
 //블록 추가하는 함수
-function addBlock(bodyData) {
+//넣는 인자 bodyData에서 newBlock으로 바꿈요
+function addBlock(newBlock) {
   // const newBlock = nextBlock(bodyData);
   // console.log("블록스찍히나", Blocks);
-  Blocks.push(bodyData);
+  Blocks.push(newBlock);
+  //디비에 저장하는 함수 만들어보자
+  addDB(newBlock);
 }
 
 function replaceChain(newBlocks) {
