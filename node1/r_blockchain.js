@@ -179,7 +179,6 @@ function nextBlock(bodyData) {
   console.log("넥스트", header);
   return new Block(header, bodyData);
 }
-addBlock;
 
 //블록 추가하는 함수
 //넣는 인자 bodyData에서 newBlock으로 바꿈요
