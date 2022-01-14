@@ -6,7 +6,7 @@ const fs = require("fs");
 const merkle = require("merkle");
 const cryptojs = require("crypto-js"); //암호화
 const { isValidChain } = require("./r_checkValidBlock");
-const { addDB } = require("./r_util");
+const { importBlockDB } = require("./r_util");
 const { Blockchain } = require("../models");
 
 //예상 채굴시간을 변수로 설정한다
@@ -86,10 +86,13 @@ function createGenesisBlock() {
 
 //블록 여러개 저장할 수 있는 배열을 만들어줌
 let Blocks = [createGenesisBlock()];
-console.log(Blocks);
+// console.log(Blocks);
 
 //현재 있는 함수들 다 가져오는 함수
 function getBlocks() {
+  //db를 띄우게 해보자고 넣어본 함수인데
+  //콘솔로 정보들어오는것만확인함
+  importBlockDB();
   return Blocks;
 }
 
@@ -167,7 +170,7 @@ function nextBlock(bodyData) {
   //난이도 조절함수 추가 //utils에 getDifficulty 함수 있음요
   const difficulty = getDifficulty(getBlocks());
 
-  console.log("나니도", difficulty);
+  // console.log("나니도", difficulty);
   const header = findBlock(
     version,
     index,
@@ -176,25 +179,18 @@ function nextBlock(bodyData) {
     merkleRoot,
     difficulty
   );
-  console.log("넥스트", header);
+  // console.log("넥스트", header);
   return new Block(header, bodyData);
 }
 
 //블록 추가하는 함수
 //넣는 인자 bodyData에서 newBlock으로 바꿈요
 function addBlock(newBlock) {
-  const blockchain = require("../models/blockchain");
+  const Blockchain = require("../models/blockchain");
   // const newBlock = nextBlock(bodyData);
   // console.log("블록스찍히나", Blocks);
   Blocks.push(newBlock);
-  blockchain.create({ Blockchain: newBlock });
-
-  console.log("새블록:", newBlock);
-  // const test = Blocks.push(newBlock);
-  console.log("-----test----:", Blocks);
-  //디비에 저장하는 함수 만들어보자
-  console.log("---------------");
-  // addDB(newBlock);
+  Blockchain.create({ Blockchain: newBlock });
 }
 
 function replaceChain(newBlocks) {
@@ -207,7 +203,7 @@ function replaceChain(newBlocks) {
       broadcast(responseLatestMsg());
     }
   } else {
-    console.log("받은 원장에 문제가 있음");
+    // console.log("받은 원장에 문제가 있음");
   }
 }
 
@@ -333,8 +329,8 @@ function getCurrentTimestamp() {
 
 //유효한 타임스탬프인지 보는 함수
 function isValidTimestamp(newBlock, prevBlock) {
-  console.log("뺀거:", newBlock.header.timestamp - prevBlock.header.timestamp);
-  console.log(getCurrentTimestamp());
+  // console.log("뺀거:", newBlock.header.timestamp - prevBlock.header.timestamp);
+  // console.log(getCurrentTimestamp());
   //5초이내에 생성되는 걸 막음
   if (newBlock.header.timestamp - prevBlock.header.timestamp < 5) {
     return false;
@@ -367,4 +363,6 @@ module.exports = {
   getVersion,
   createGenesisBlock,
   replaceChain,
+  BlockHeader,
+  Block,
 }; //내보내주는거

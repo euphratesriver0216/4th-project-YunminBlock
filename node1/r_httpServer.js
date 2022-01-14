@@ -2,6 +2,7 @@
 // 사용자와 노드간의 통신
 const express = require("express");
 const bodyParser = require("body-parser");
+// const Blockchain = require("../models/blockchain");
 const {
   getBlocks,
   nextBlock,
@@ -15,6 +16,9 @@ const {
   responseLatestMsg,
 } = require("./r_P2PServer");
 const { getPublicKeyFromWallet, initWallet } = require("./r_encryption");
+const { importBlockDB } = require("./r_util");
+const sequelize = require("sequelize");
+const Blockchain = require("../models/blockchain");
 
 const http_port = process.env.HTTP_PORT || 3001;
 
@@ -24,7 +28,7 @@ function initHttpServer() {
   //추가
   app.post("/addPeers", (req, res) => {
     const data = req.body.data || [];
-    console.log(data);
+    // console.log(data);
     connectToPeers(data);
     res.send(data);
   });
@@ -79,3 +83,6 @@ function initHttpServer() {
 
 initHttpServer();
 initWallet();
+
+//db띄우는함수
+// importBlockDB();
