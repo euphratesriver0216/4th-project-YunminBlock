@@ -45,7 +45,7 @@ function isValidNewBlock(newBlock, prevBlock) {
       ("0", repeat(64) !== newBlock.header.merkleRoot)) ||
     (newBlock.body.length !== 0 &&
       merkle("sha256").sync(newBlock.body).root() !==
-        newBlock.header.merkleRoot)
+      newBlock.header.merkleRoot)
   ) {
     console.log("Invalid merkleRoot");
     return false;

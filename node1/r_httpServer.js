@@ -1,7 +1,14 @@
 // HTTP Server 초기화, p2p Sever 초기화 , 지갑초기화
 // 사용자와 노드간의 통신
 const express = require("express");
+const app = express();
+const cors = require('cors');
 const bodyParser = require("body-parser");
+
+app.use(bodyParser.urlencoded({ extended: false }));
+app.use(cors());
+app.use(bodyParser.json());
+// const Blockchain = require("../models/blockchain");
 const {
   getBlocks,
   nextBlock,
@@ -15,6 +22,9 @@ const {
   responseLatestMsg,
 } = require("./r_P2PServer");
 const { getPublicKeyFromWallet, initWallet } = require("./r_encryption");
+const { importBlockDB } = require("./r_util");
+const sequelize = require("sequelize");
+const Blockchain = require("../models/blockchain");
 
 const http_port = process.env.HTTP_PORT || 3001;
 
@@ -24,7 +34,7 @@ function initHttpServer() {
   //추가
   app.post("/addPeers", (req, res) => {
     const data = req.body.data || [];
-    console.log(data);
+    // console.log(data);
     connectToPeers(data);
     res.send(data);
   });
@@ -56,6 +66,17 @@ function initHttpServer() {
     //디비저장하는 함수 만들어보자
     // addDB(getBlocks());
   });
+  //////////////////추가////////////
+  app.post("/data", (req, res) => {
+    connection.query("SELECT * FROM NewBlockchains", function (err, rows, fields) {
+      if (err) {
+        console.log("데이터 가져오기 실패");
+      } else {
+        console.log(rows[0]);
+        res.send(rows[0]);
+      }
+    });
+  });
 
   app.post("/stop", (req, res) => {
     res.send({ msg: "Stop Server!" });
@@ -79,3 +100,6 @@ function initHttpServer() {
 
 initHttpServer();
 initWallet();
+
+//db띄우는함수
+// importBlockDB();

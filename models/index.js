@@ -19,3 +19,4 @@ db.Blockchain = Blockchain;
 Blockchain.init(sequelize);
 Blockchain.associate(db);
 module.exports = db;
+
