@@ -5,16 +5,13 @@
     "node": true
   },
   "extends": [
+    "react-app",
     "airbnb",
     "prettier",
     "plugin:jsx-a11y/recommended",
     "plugin:react-hooks/recommended"
   ],
-  "plugins": [
-    "prettier",
-    "react",
-    "react-hooks"
-  ],
+  "plugins": ["prettier", "react", "react-hooks"],
   "parser": "@babel/eslint-parser",
   "parserOptions": {
     "ecmaVersion": 8,
@@ -61,14 +58,16 @@
         "ignoreRestSiblings": false
       }
     ],
-    "prettier/prettier": [
-      2,
-      {
-        "printWidth": 100,
-        "singleQuote": true,
-        "trailingComma": "none",
-        "tabWidth": 2
-      }
-    ]
+    // "prettier/prettier": [
+    //   2,
+    //   {
+    //     "semi": false,
+    //     "endOfLine": "auto",
+    //     "printWidth": 80,
+    //     "singleQuote": true,
+    //     "trailingComma": "all",
+    //     "tabWidth": 3
+    //   }
+    // ]
   }
 }
