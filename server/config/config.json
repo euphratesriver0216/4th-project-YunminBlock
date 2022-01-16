@@ -1,6 +1,6 @@
 {
   "development": {
-    "username": "mariatest",
+    "username": "root",
     "password": "1234",
     "database": "mariadb",
     "host": "127.0.0.1",
@@ -11,14 +11,14 @@
     }
   },
   "test": {
-    "username": "mariatest",
+    "username": "root",
     "password": "1234",
     "database": "database_test",
     "host": "127.0.0.1",
     "dialect": "mysql"
   },
   "production": {
-    "username": "mariatest",
+    "username": "root",
     "password": "1234",
     "database": "database_production",
     "host": "127.0.0.1",
