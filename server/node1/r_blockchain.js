@@ -7,6 +7,7 @@ const merkle = require("merkle");
 const cryptojs = require("crypto-js"); //암호화
 const { isValidChain } = require("./r_checkValidBlock");
 const { importBlockDB } = require("./r_util");
+const { Blockchain } = require("../models");
 
 //예상 채굴시간을 변수로 설정한다
 const BLOCK_GENERATION_INTERVAL = 10; //second
@@ -189,7 +190,7 @@ function addBlock(newBlock) {
   // const newBlock = nextBlock(bodyData);
   // console.log("블록스찍히나", Blocks);
   Blocks.push(newBlock);
-  Blockchain.create({ BlockchainNode1: Sequelize.JSON });
+  Blockchain.create({ Blockchain: newBlock });
 }
 
 function replaceChain(newBlocks) {
