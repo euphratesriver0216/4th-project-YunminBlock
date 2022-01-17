@@ -1,12 +1,9 @@
-import { Icon } from '@iconify/react';
-import appleFilled from '@iconify/icons-ant-design/apple-filled';
-// material
+// import React, { useState, useEffect } from 'react';
 import { alpha, styled } from '@mui/material/styles';
-import { Card, Typography } from '@mui/material';
-// utils
-import { fShortenNumber } from '../../../utils/formatNumber';
+import { Card, Typography, Grid } from '@mui/material';
+// import { useEffect, useState } from 'react';
 
-// ----------------------------------------------------------------------
+// --------------------------스타일--------------------------------------------
 
 const RootStyle = styled(Card)(({ theme }) => ({
   boxShadow: 'none',
@@ -32,6 +29,8 @@ const IconWrapperStyle = styled('div')(({ theme }) => ({
   )} 100%)`
 }));
 
+// -----------------------------기능-----------------------------------------
+
 // ----------------------------------------------------------------------
 
 const TOTAL = 1352831;
@@ -39,13 +38,8 @@ const TOTAL = 1352831;
 export default function AppNewUsers() {
   return (
     <RootStyle>
-      <IconWrapperStyle>
-        <Icon icon={appleFilled} width={24} height={24} />
-      </IconWrapperStyle>
-      <Typography variant="h3">{fShortenNumber(TOTAL)}</Typography>
-      <Typography variant="subtitle2" sx={{ opacity: 0.72 }}>
-        New Users
-      </Typography>
+      <Typography variant="h3">NODE no.2</Typography>
+      <Grid>d</Grid>
     </RootStyle>
   );
 }

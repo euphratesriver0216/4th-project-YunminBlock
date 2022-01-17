@@ -1,10 +1,11 @@
-import { Icon } from '@iconify/react';
-import androidFilled from '@iconify/icons-ant-design/android-filled';
 // material
 import { alpha, styled } from '@mui/material/styles';
-import { Card, Typography } from '@mui/material';
+import { Card, Typography, Grid } from '@mui/material';
+import axios from 'axios';
 // utils
-import { fShortenNumber } from '../../../utils/formatNumber';
+// import { fShortenNumber } from '../../../utils/formatNumber';
+
+// ----------------------------------------------------------------------
 
 // ----------------------------------------------------------------------
 
@@ -32,6 +33,15 @@ const IconWrapperStyle = styled('div')(({ theme }) => ({
   )} 100%)`
 }));
 
+const blockMaker = async () => {
+  const data = blockData;
+  if (data.length === 0) {
+    return alert('데이터가 필요합니다.');
+  }
+  await axios
+    .post(`http://localhost:3001/mineBlock`, { data: [data] })
+    .then((req) => alert(req.data));
+};
 // ----------------------------------------------------------------------
 
 const TOTAL = 714000;
@@ -39,13 +49,8 @@ const TOTAL = 714000;
 export default function AppWeeklySales() {
   return (
     <RootStyle>
-      <IconWrapperStyle>
-        <Icon icon={androidFilled} width={24} height={24} />
-      </IconWrapperStyle>
-      <Typography variant="h3">{fShortenNumber(TOTAL)}</Typography>
-      <Typography variant="subtitle2" sx={{ opacity: 0.72 }}>
-        Weekly Sales
-      </Typography>
+      <Typography variant="h3">NODE no.1</Typography>
+      <Grid></Grid>
     </RootStyle>
   );
 }
