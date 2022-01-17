@@ -4,9 +4,13 @@ module.exports = class Blockchain extends Sequelize.Model {
   static init(sequelize) {
     return super.init(
       {
-        Blockchain: {
+        BlockchainNode1: {
           type: Sequelize.JSON,
-          allowNull: false,
+          allowNull: true,
+        },
+        BlockchainNode2: {
+          type: Sequelize.JSON,
+          allowNull: true,
         },
       },
       {
