@@ -25,7 +25,7 @@ export default function DashboardApp() {
       <Container maxWidth="xl">
         <Box sx={{ pb: 5 }}>
           <Typography variant="h4">Hi, This is YUNMIN Block! </Typography>
-          <Button>SHOW ME THE BLOCK</Button>
+          <Button>START TO BLOCK MINING</Button>
         </Box>
         <Grid container spacing={3}>
           <Grid item xs={12} sm={6} md={3}>
