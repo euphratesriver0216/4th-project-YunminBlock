@@ -1,0 +1,24 @@
+{
+  "development": {
+    "username": "mariatest",
+    "password": "1234",
+    "database": "mariadb",
+    "host": "localhost",
+    "dialect": "mysql",
+    "port": "3307"
+  },
+  "test": {
+    "username": "mariatest",
+    "password": "1234",
+    "database": "database_test",
+    "host": "0.0.0.0",
+    "dialect": "mysql"
+  },
+  "production": {
+    "username": "mariatest",
+    "password": "1234",
+    "database": "database_production",
+    "host": "0.0.0.0",
+    "dialect": "mysql"
+  }
+}

@@ -14,7 +14,7 @@ module.exports = class Blockchain extends Sequelize.Model {
         timestamps: false,
         underscored: false,
         modelName: "Blockchain",
-        tableName: "NewblockchainsNode1",
+        tableName: "NewblockchainsNode2",
         paranoid: true,
         charset: "utf8",
         collate: "utf8_general_ci",
