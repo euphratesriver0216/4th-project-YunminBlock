@@ -60,7 +60,7 @@ function NewsItem({ news }) {
 export default function AppNewsUpdate() {
   return (
     <Card>
-      <CardHeader title="News Update" />
+      {/* <CardHeader title="News Update" />
 
       <Scrollbar>
         <Stack spacing={3} sx={{ p: 3, pr: 0 }}>
@@ -82,7 +82,7 @@ export default function AppNewsUpdate() {
         >
           View all
         </Button>
-      </Box>
+      </Box> */}
     </Card>
   );
 }

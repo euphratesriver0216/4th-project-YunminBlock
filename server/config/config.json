@@ -1,0 +1,27 @@
+{
+  "development": {
+    "username": "root",
+    "password": "1234",
+    "database": "mariadb",
+    "host": "127.0.0.1",
+    "dialect": "mysql",
+    "port": 3307,
+    "dialectOptions": {
+      "socketPath": "/var/run/mysqld/mysqld.sock"
+    }
+  },
+  "test": {
+    "username": "root",
+    "password": "1234",
+    "database": "database_test",
+    "host": "127.0.0.1",
+    "dialect": "mysql"
+  },
+  "production": {
+    "username": "root",
+    "password": "1234",
+    "database": "database_production",
+    "host": "127.0.0.1",
+    "dialect": "mysql"
+  }
+}
