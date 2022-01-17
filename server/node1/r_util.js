@@ -1,4 +1,4 @@
-const db = require("../../models");
+const db = require("../models");
 
 //db띄우는함수
 async function importBlockDB() {
