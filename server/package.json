@@ -19,6 +19,7 @@
   "homepage": "https://github.com/euphratesriver0216/4th-project-YunminBlock#readme",
   "dependencies": {
     "axios": "^0.24.0",
+    "cors": "^2.8.5",
     "crypto-js": "^4.1.1",
     "elliptic": "^6.5.4",
     "express": "^4.17.2",
