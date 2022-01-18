@@ -2,16 +2,24 @@
 // 사용자와 노드간의 통신
 const express = require("express");
 const bodyParser = require("body-parser");
+// const Blockchain = require("../models/blockchain");
 const {
   getBlocks,
   nextBlock,
   getVersion,
   addBlock,
 } = require("./r_blockchain");
-const { connectToPeers, getSockets } = require("./r_P2PServer");
+const {
+  connectToPeers,
+  getSockets,
+  broadcast,
+  responseLatestMsg,
+} = require("./r_P2PServer");
 const { getPublicKeyFromWallet, initWallet } = require("./r_encryption");
-const { broadcast, responseLatestMsg } = require("./r_P2PServer");
-// const { message } = require("statuses");
+const { importBlockDB } = require("./r_util");
+const sequelize = require("sequelize");
+const Blockchain = require("../models/blockchain");
+
 const http_port = process.env.HTTP_PORT || 3002;
 
 function initHttpServer() {
@@ -20,7 +28,7 @@ function initHttpServer() {
   //추가
   app.post("/addPeers", (req, res) => {
     const data = req.body.data || [];
-    console.log(data);
+    // console.log(data);
     connectToPeers(data);
     res.send(data);
   });
@@ -46,9 +54,13 @@ function initHttpServer() {
     console.log(data);
     const block = nextBlock(data);
     addBlock(block);
+    // broadcast(block)
     broadcast(responseLatestMsg());
     res.send(getBlocks());
+    //디비저장하는 함수 만들어보자
+    // addDB(getBlocks());
   });
+
   app.post("/stop", (req, res) => {
     res.send({ msg: "Stop Server!" });
     process.exit();
@@ -71,3 +83,6 @@ function initHttpServer() {
 
 initHttpServer();
 initWallet();
+
+//db띄우는함수
+// importBlockDB();
