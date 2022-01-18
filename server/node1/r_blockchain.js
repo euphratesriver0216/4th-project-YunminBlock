@@ -66,7 +66,7 @@ function createGenesisBlock() {
   // const bit = 0;
 
   //난이도 추가
-  const difficulty = 2;
+  const difficulty = 4;
 
   const nonce = 10;
 
