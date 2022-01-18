@@ -1,6 +1,7 @@
 // routes
 import Router from './routes';
 // theme
+// import Test2 from './components/Test2';
 import ThemeConfig from './theme';
 import GlobalStyles from './theme/globalStyles';
 // components
@@ -16,6 +17,7 @@ export default function App() {
       <GlobalStyles />
       <BaseOptionChartStyle />
       <Router />
+      {/* <Test2 /> */}
     </ThemeConfig>
   );
 }

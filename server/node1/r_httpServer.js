@@ -2,6 +2,7 @@
 // 사용자와 노드간의 통신
 const express = require("express");
 const bodyParser = require("body-parser");
+const cors = require("cors");
 // const Blockchain = require("../models/blockchain");
 const {
   getBlocks,
@@ -41,6 +42,12 @@ function initHttpServer() {
     res.send(sockInfo);
   });
 
+  // const corsOptions = {
+  //   origin: "http://localhost:3000",
+  //   credentials: true,
+  // };
+
+  app.use(cors());
   app.get("/blocks", (req, res) => {
     res.send(getBlocks());
   });
