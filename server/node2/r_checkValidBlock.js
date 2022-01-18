@@ -9,7 +9,8 @@ const {
   // createHash,
   // nextBlock,
   // isValidTimestamp,
-} = require("./r_blockchain");
+} = require("./r_blockchain.js");
+
 const merkle = require("merkle");
 
 function isValidBlockStructure(block) {
@@ -90,5 +91,4 @@ function addBlock(newBlock) {
 
 module.exports = {
   addBlock,
-  isValidChain,
 };

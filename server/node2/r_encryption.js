@@ -4,11 +4,11 @@ const fs = require("fs");
 //타원곡선개념을 사용한 다지털 터널 알고리즘을 짤거임
 // 타원 곡선 디지털 서명 알고리즘
 const ecdsa = require("elliptic");
-// const { generateKey } = require("crypto");
+const { generateKey } = require("crypto");
 const ec = new ecdsa.ec("secp256k1");
 
 const privateKeyLocation =
-  "node1/wallet/" + (process.env.PRIVATE_KEY || "default");
+  "node2/wallet/" + (process.env.PRIVATE_KEY || "default");
 const privateKeyFile = privateKeyLocation + "/private_key";
 
 function initWallet() {
@@ -16,8 +16,8 @@ function initWallet() {
     console.log("기존지갑 private key 경로 :" + privateKeyFile);
     return;
   }
-  if (!fs.existsSync("node1/wallet/")) {
-    fs.mkdirSync("node1/wallet/");
+  if (!fs.existsSync("node2/wallet/")) {
+    fs.mkdirSync("node2/wallet/");
   }
   if (!fs.existsSync(privateKeyLocation)) {
     fs.mkdirSync(privateKeyLocation);
