@@ -44,7 +44,7 @@ export default function AppWeeklySales() {
   const [blockData, setblockData] = useState('');
 
   const connectToHttp = async () => {
-    await axios.get(`http://localhost:3001/Blocks`).then((req) => console.log(req.data));
+    await axios.get(`http://localhost:3001/blocks`).then((req) => console.log(req.data));
   };
   const blockMaker = async () => {
     const data = blockData;
