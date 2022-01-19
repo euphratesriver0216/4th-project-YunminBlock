@@ -41,7 +41,7 @@ function initHttpServer() {
     res.send(sockInfo);
   });
 
-  app.get("/blocks", (req, res) => {
+  app.get("/api/blocks", (req, res) => {
     res.send(getBlocks());
   });
 
