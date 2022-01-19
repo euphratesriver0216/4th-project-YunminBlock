@@ -1,8 +1,8 @@
 {
   "development": {
-    "username": "mariatest",
+    "username": "root",
     "password": "1234",
-    "database": "mariadb",
+    "database": "minmin",
     "host": "127.0.0.1",
     "dialect": "mysql",
     "port": 3306
