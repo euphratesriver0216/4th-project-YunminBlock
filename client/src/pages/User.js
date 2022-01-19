@@ -1,6 +1,6 @@
-// 지갑으로 변경
 import { filter } from 'lodash';
 import { Icon } from '@iconify/react';
+import axios from 'axios';
 import { sentenceCase } from 'change-case';
 import { useState } from 'react';
 import plusFill from '@iconify/icons-eva/plus-fill';
@@ -81,6 +81,22 @@ export default function User() {
   const [orderBy, setOrderBy] = useState('name');
   const [filterName, setFilterName] = useState('');
   const [rowsPerPage, setRowsPerPage] = useState(5);
+  const [Wallet, setWallet] = useState('');
+  const [Wallet2, setWallet2] = useState('');
+
+  const address = () => {
+    axios.get(`http://localhost:3001/address`).then((req) => {
+      setWallet(req.data.address);
+      console.log(req);
+    });
+  };
+
+  const address2 = () => {
+    axios.get(`http://localhost:3002/address`).then((req) => {
+      setWallet2(req.data.address);
+      console.log(req);
+    });
+  };
 
   const handleRequestSort = (event, property) => {
     const isAsc = orderBy === property && order === 'asc';
@@ -88,14 +104,14 @@ export default function User() {
     setOrderBy(property);
   };
 
-  const handleSelectAllClick = (event) => {
-    if (event.target.checked) {
-      const newSelecteds = USERLIST.map((n) => n.name);
-      setSelected(newSelecteds);
-      return;
-    }
-    setSelected([]);
-  };
+  // const handleSelectAllClick = (event) => {
+  //   if (event.target.checked) {
+  //     const newSelecteds = USERLIST.map((n) => n.name);
+  //     setSelected(newSelecteds);
+  //     return;
+  //   }
+  //   setSelected([]);
+  // };
 
   const handleClick = (event, name) => {
     const selectedIndex = selected.indexOf(name);
@@ -152,18 +168,21 @@ export default function User() {
         </Stack>
 
         <Card>
-          <Grid>WALLET</Grid>
-
           <Container>
             <Box>
-              문제
               <Grid>
-                <Grid item md={6}>
-                  NODE 1
-                </Grid>
-                <Grid item md={6}>
-                  NODE 2
-                </Grid>
+                <Card>
+                  <Button onClick={address}>지갑가져오기</Button>
+                  <Grid item md={6}>
+                    NODE 1 : <div>{Wallet}</div>
+                  </Grid>
+                </Card>
+                <Card>
+                  <Button onClick={address2}>지갑가져오기</Button>
+                  <Grid item md={6}>
+                    NODE 2 : <div>{Wallet2}</div>
+                  </Grid>
+                </Card>
               </Grid>
             </Box>
           </Container>
