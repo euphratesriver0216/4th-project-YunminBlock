@@ -90,9 +90,11 @@ let Blocks = [createGenesisBlock()];
 
 //현재 있는 함수들 다 가져오는 함수
 function getBlocks() {
+  console.log(555555555555);
   //db를 띄우게 해보자고 넣어본 함수인데
   //콘솔로 정보들어오는것만확인함
   importBlockDB();
+  console.log(666666666666);
   return Blocks;
 }
 

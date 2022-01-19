@@ -1,19 +1,29 @@
-import React, {useState,useEffect} from "react"
-import axios from "axios"
-import {Button} from "antd";
+import React, { useState } from "react";
+import axios from "axios";
+import BlockDefault from "./Block";
 
-function Port1(){
-    const [블록, set블록] = useState("")
-const [chainBlocks, setChainBlocks]= useState([])
-
-const connect = async () => {
-    await axios.get(`/api/blocks`).then((req)=>setChainBlocks(req.data))
+function Port1() {
+  const [HaBlocks, setHaBlocks] = useState([]);
+  const onSubmitBlock = (e) => {
+    e.preventDefault();
+    axios.get("/api/blocks").then((response) => {
+      if (response.data) {
+        setHaBlocks(response.data);
+      } else {
+        alert("실패");
+      }
+    });
+  };
+  console.log(HaBlocks);
+  return (
+    <>
+      <form onSubmit={onSubmitBlock}>
+        <button>블럭가져오기</button>
+        <BlockDefault HaBlocks={HaBlocks} />
+      </form>
+      <div>어디있어</div>
+    </>
+  );
 }
 
-
-return (
-    <Button onClick={connect}>이게 되려나 </Button>
-)
- }
-
- export default Port1;
+export default Port1;
