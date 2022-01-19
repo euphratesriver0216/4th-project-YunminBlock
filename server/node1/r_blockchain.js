@@ -92,8 +92,9 @@ let Blocks = [createGenesisBlock()];
 function getBlocks() {
   //db를 띄우게 해보자고 넣어본 함수인데
   //콘솔로 정보들어오는것만확인함
-  importBlockDB();
-  return Blocks;
+  const GET_BLOCK = importBlockDB();
+  console.log("겟", GET_BLOCK);
+  return GET_BLOCK;
 }
 
 //제일 마지막에 만든 블록가져오는 함수

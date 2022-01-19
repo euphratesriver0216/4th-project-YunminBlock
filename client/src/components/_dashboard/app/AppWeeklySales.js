@@ -1,8 +1,8 @@
 // material
-import React, { useState, useRef, useEffect } from 'react';
-import { alpha, styled } from '@mui/material/styles';
-import { Card, Typography, Grid, Button, Input } from '@mui/material';
-import axios from 'axios';
+import React, { useState, useRef, useEffect } from "react";
+import { alpha, styled } from "@mui/material/styles";
+import { Card, Typography, Grid, Button, Input } from "@mui/material";
+import axios from "axios";
 
 // import React, { useEffect } from 'react';
 // utils
@@ -13,27 +13,27 @@ import axios from 'axios';
 // ----------------------------------------------------------------------
 
 const RootStyle = styled(Card)(({ theme }) => ({
-  boxShadow: 'none',
-  textAlign: 'center',
+  boxShadow: "none",
+  textAlign: "center",
   padding: theme.spacing(5, 0),
   color: theme.palette.primary.darker,
-  backgroundColor: theme.palette.primary.lighter
+  backgroundColor: theme.palette.primary.lighter,
 }));
 
-const IconWrapperStyle = styled('div')(({ theme }) => ({
-  margin: 'auto',
-  display: 'flex',
-  borderRadius: '50%',
-  alignItems: 'center',
+const IconWrapperStyle = styled("div")(({ theme }) => ({
+  margin: "auto",
+  display: "flex",
+  borderRadius: "50%",
+  alignItems: "center",
   width: theme.spacing(8),
   height: theme.spacing(8),
-  justifyContent: 'center',
+  justifyContent: "center",
   marginBottom: theme.spacing(3),
   color: theme.palette.primary.dark,
-  backgroundImage: `linear-gradient(135deg, ${alpha(theme.palette.primary.dark, 0)} 0%, ${alpha(
+  backgroundImage: `linear-gradient(135deg, ${alpha(
     theme.palette.primary.dark,
-    0.24
-  )} 100%)`
+    0
+  )} 0%, ${alpha(theme.palette.primary.dark, 0.24)} 100%)`,
 }));
 
 // ----------------------------------------------------------------------
@@ -57,11 +57,14 @@ function useInterval(callback, delay) {
   }, [delay]);
 }
 export default function AppWeeklySales() {
-  const [blockData, setblockData] = useState('');
+  const [blockData, setblockData] = useState("");
   const [chainBlocks, setChainBlocks] = useState([]);
 
   const connectToHttp = async () => {
-    await axios.get(`http://localhost:3001/Blocks`).then((req) => setChainBlocks(req.data));
+    await axios.get(`http://localhost:3001/blocks`).then((req) => {
+      setChainBlocks(req.data);
+      console.log(req.data);
+    });
   };
   const blockMaker = async () => {
     const data = blockData;
@@ -70,7 +73,7 @@ export default function AppWeeklySales() {
     }
     await axios
       .post(`http://localhost:3001/mineBlock`, { data: [data] })
-      .then((req) => alert(req.data));
+      .then((req) => alert(`${blockData} 이(가) 블럭에 추가되었습니다.`));
   };
 
   const [count, setCount] = useState(0);
@@ -80,12 +83,14 @@ export default function AppWeeklySales() {
 
   useInterval(
     () => {
-      const data = blockData || 'ararar';
+      const data = blockData || "ararar";
       setIsRunning(false);
-      axios.post(`http://localhost:3001/mineBlock`, { data: [data] }).then((req) => {
-        console.log(req.data);
-        setIsRunning(true);
-      });
+      axios
+        .post(`http://localhost:3001/mineBlock`, { data: [data] })
+        .then((req) => {
+          console.log(req.data);
+          setIsRunning(true);
+        });
 
       setCount(count + 1);
     },
@@ -96,9 +101,6 @@ export default function AppWeeklySales() {
       <Typography variant="h3">NODE no.1</Typography>
       <Grid> YUN </Grid>
       <Button onClick={connectToHttp}>START TO MINEBLOCK</Button>
-      <div>
-        <Grid>아니 오늘</Grid>
-      </div>
       <div>{JSON.stringify(chainBlocks)}</div>
       <Input
         placeholder="bodydata"

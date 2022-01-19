@@ -37,11 +37,8 @@ sequelize
     Blockchain.findAll().then((YM) => {
       let ym = [];
       YM.forEach((blocks) => {
-        console.log(1111111);
         // DB에 있는 제이슨 형식의 블록들을 객체형식으로 가져와서 bc배열에 푸시푸시
         ym.push(blocks.Blockchain);
-        console.log(22222222);
-        console.log(ym[0].header.nonce);
       });
 
       if (ym.length === 0) {
