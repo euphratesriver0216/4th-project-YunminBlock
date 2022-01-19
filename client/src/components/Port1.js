@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import axios from "axios";
-import BlockDefault from "./Block";
 
 function Port1() {
   const [HaBlocks, setHaBlocks] = useState([]);
@@ -19,7 +18,7 @@ function Port1() {
     <>
       <form onSubmit={onSubmitBlock}>
         <button>블럭가져오기</button>
-        <BlockDefault HaBlocks={HaBlocks} />
+        {HaBlocks.id}
       </form>
       <div>어디있어</div>
     </>
