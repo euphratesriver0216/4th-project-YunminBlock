@@ -1,9 +1,9 @@
 {
   "development": {
-    "username": "root",
-    "password": "1234",
-    "database": "mariadb",
-    "host": "127.0.0.1",
+    "username": "admin",
+    "password": "ara12345",
+    "database": "arara",
+    "host": "arar.ciszsojgfruj.ap-northeast-2.rds.amazonaws.com",
     "dialect": "mysql",
     "port": 3306
   },
