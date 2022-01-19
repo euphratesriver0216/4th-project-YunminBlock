@@ -85,16 +85,16 @@ export default function User() {
   const [Wallet2, setWallet2] = useState('');
 
   const address = () => {
-    axios.get(`http://localhost:3001/address`).then((req) => {
-      setWallet(req.data.address);
-      console.log(req);
+    axios.get(`http://localhost:3001/address`).then((res) => {
+      setWallet(res.data.address);
+      console.log(res);
     });
   };
 
   const address2 = () => {
-    axios.get(`http://localhost:3002/address`).then((req) => {
-      setWallet2(req.data.address);
-      console.log(req);
+    axios.get(`http://localhost:3002/address`).then((res) => {
+      setWallet2(res.data.address);
+      console.log(res);
     });
   };
 

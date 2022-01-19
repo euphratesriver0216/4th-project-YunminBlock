@@ -25,6 +25,7 @@ const http_port = process.env.HTTP_PORT || 3001;
 
 function initHttpServer() {
   const app = express();
+  app.use(cors());
   app.use(bodyParser.json());
   //추가
   app.post("/addPeers", (req, res) => {
@@ -47,7 +48,6 @@ function initHttpServer() {
   //   credentials: true,
   // };
 
-  app.use(cors());
   app.get("/blocks", (req, res) => {
     res.send(getBlocks());
   });

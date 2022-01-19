@@ -13,9 +13,11 @@ const { getPublicKeyFromWallet, initWallet } = require("./r_encryption");
 const { broadcast, responseLatestMsg } = require("./r_P2PServer");
 // const { message } = require("statuses");
 const http_port = process.env.HTTP_PORT || 3002;
+const cors = require("cors");
 
 function initHttpServer() {
   const app = express();
+  app.use(cors());
   app.use(bodyParser.json());
   //추가
   app.post("/addPeers", (req, res) => {
@@ -24,7 +26,6 @@ function initHttpServer() {
     connectToPeers(data);
     res.send(data);
   });
-
   app.get("/peers", (req, res) => {
     let sockInfo = [];
     getSockets().forEach((s) => {
@@ -59,6 +60,7 @@ function initHttpServer() {
     const address = getPublicKeyFromWallet().toString();
     console.log(getPublicKeyFromWallet());
     if (address != "") {
+      console.log("나는 지갑");
       res.send({ address: address });
     } else {
       res.send("empty address");
