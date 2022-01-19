@@ -1,7 +1,7 @@
 // material
-import React, { useState ,useRef,useEffect} from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { alpha, styled } from '@mui/material/styles';
-import { Card, Typography, Grid, Button ,Input} from '@mui/material';
+import { Card, Typography, Grid, Button, Input } from '@mui/material';
 import axios from 'axios';
 
 // import React, { useEffect } from 'react';
@@ -61,9 +61,7 @@ export default function AppWeeklySales() {
   const [chainBlocks, setChainBlocks] = useState([]);
 
   const connectToHttp = async () => {
-    await axios
-    .get(`http://localhost:3001/Blocks`)
-    .then((req) => setChainBlocks(req.data));
+    await axios.get(`http://localhost:3001/Blocks`).then((req) => setChainBlocks(req.data));
   };
   const blockMaker = async () => {
     const data = blockData;
@@ -82,14 +80,12 @@ export default function AppWeeklySales() {
 
   useInterval(
     () => {
-      const data = blockData || "ararar";
+      const data = blockData || 'ararar';
       setIsRunning(false);
-      axios
-        .post(`http://localhost:3001/mineBlock`, { data: [data] })
-        .then((req) => {
-          console.log(req.data);
-          setIsRunning(true);
-        });
+      axios.post(`http://localhost:3001/mineBlock`, { data: [data] }).then((req) => {
+        console.log(req.data);
+        setIsRunning(true);
+      });
 
       setCount(count + 1);
     },
