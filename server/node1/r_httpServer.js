@@ -2,14 +2,16 @@
 // 사용자와 노드간의 통신
 const express = require("express");
 const app = express();
-const cors = require('cors');
+const cors = require("cors");
 const bodyParser = require("body-parser");
+const { sequelize } = require("../models");
 
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cors());
 app.use(bodyParser.json());
 // const Blockchain = require("../models/blockchain");
 const {
+  createGenesisBlock,
   getBlocks,
   nextBlock,
   getVersion,
@@ -23,10 +25,32 @@ const {
 } = require("./r_P2PServer");
 const { getPublicKeyFromWallet, initWallet } = require("./r_encryption");
 const { importBlockDB } = require("./r_util");
-const sequelize = require("sequelize");
 const Blockchain = require("../models/blockchain");
 
 const http_port = process.env.HTTP_PORT || 3001;
+//--------------------------추가 부분 --------------------
+sequelize
+  .sync({ force: false })
+  //이미 db가 있으면 force 가 true면 table을 새로 만들고 false 일 경우 기존 table 사용
+  .then(() => {
+    console.log("db에 연결 해줄껭");
+    Blockchain.findAll().then((YM) => {
+      let ym = [];
+      YM.forEach((blocks) => {
+        console.log(1111111);
+        // DB에 있는 제이슨 형식의 블록들을 객체형식으로 가져와서 bc배열에 푸시푸시
+        ym.push(blocks.Blockchain);
+        console.log(22222222);
+        console.log(ym[0].header.nonce);
+      });
+
+      if (ym.length === 0) {
+        //0이면 제네시스없는거니깐 넣어주셈
+        Blockchain.create({ Blockchain: createGenesisBlock() });
+        ym.push(createGenesisBlock());
+      }
+    });
+  }); //  dbBlockCheck -> db에 있는 bc를 검증하는 함수
 
 function initHttpServer() {
   const app = express();
@@ -74,14 +98,17 @@ function initHttpServer() {
   });
   //////////////////추가////////////
   app.post("/data", (req, res) => {
-    connection.query("SELECT * FROM NewBlockchains", function (err, rows, fields) {
-      if (err) {
-        console.log("데이터 가져오기 실패");
-      } else {
-        console.log(rows[0]);
-        res.send(rows[0]);
+    connection.query(
+      "SELECT * FROM NewBlockchains",
+      function (err, rows, fields) {
+        if (err) {
+          console.log("데이터 가져오기 실패");
+        } else {
+          console.log(rows[0]);
+          res.send(rows[0]);
+        }
       }
-    });
+    );
   });
 
   app.post("/stop", (req, res) => {
