@@ -93,6 +93,7 @@ function initMessageHandler(ws) {
 
 //마지막 최신 블록 담아서 보내줌
 function responseLatestMsg() {
+  const { getLastBlock } = require("./r_blockchain");
   return {
     type: MessageType.RESPONSE_BLOCKCHAIN,
     data: JSON.stringify([getLastBlock()]),
@@ -106,6 +107,8 @@ function responseAllChainMsg() {
   };
 }
 function handleBlockChainResponse(message) {
+  const { getLastBlock, createHash, replaceChain } = require("./r_blockchain");
+
   const receiveBlocks = JSON.parse(message.data);
   //받은 것중에 마지막꺼
   const latestReceiveBlock = receiveBlocks[receiveBlocks.length - 1];

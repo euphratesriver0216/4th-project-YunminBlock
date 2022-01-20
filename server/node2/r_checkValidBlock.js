@@ -66,7 +66,9 @@ function isValidChain(newBlocks) {
   for (var i = 1; i < newBlocks.length; i++) {
     if (isValidNewBlock(newBlocks[i], tempBlocks[i - 1])) {
       tempBlocks.push(newBlocks[i]);
+      console.log("너니");
     } else {
+      console.log("너니2");
       return false;
     }
   }

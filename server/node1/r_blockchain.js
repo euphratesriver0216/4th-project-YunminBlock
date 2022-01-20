@@ -8,6 +8,7 @@ const cryptojs = require("crypto-js"); //암호화
 const { isValidChain } = require("./r_checkValidBlock");
 const { importBlockDB } = require("./r_util");
 const { Blockchain } = require("../models");
+const P2PServer = require("./r_P2PServer");
 
 //예상 채굴시간을 변수로 설정한다
 const BLOCK_GENERATION_INTERVAL = 10; //second
@@ -201,7 +202,7 @@ function replaceChain(newBlocks) {
       (newBlocks.length === Blocks.length && random.boolean())
     ) {
       Blocks = newBlocks;
-      broadcast(responseLatestMsg());
+      P2PServer.broadcast(P2PServer.responseLatestMsg());
     }
   } else {
     // console.log("받은 원장에 문제가 있음");
@@ -333,12 +334,12 @@ function isValidTimestamp(newBlock, prevBlock) {
   // console.log("뺀거:", newBlock.header.timestamp - prevBlock.header.timestamp);
   // console.log(getCurrentTimestamp());
   //5초이내에 생성되는 걸 막음
-  if (newBlock.header.timestamp - prevBlock.header.timestamp < 5) {
+  if (prevBlock.header.timestamp - 60 > newBlock.header.timestamp) {
     return false;
   }
   //검증자의 시간과 새로운 블록의 시간과 비교! 검증자가 검증하는데
   //검증하는 시간이랑 만들어진 블록의 시간이 너무 차이가 나면 버림
-  if (getCurrentTimestamp() - newBlock.header.timestamp > 60) {
+  if (newBlock.header.timestamp - 60 > getCurrentTimestamp()) {
     return false;
   }
   return true;

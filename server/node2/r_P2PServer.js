@@ -94,6 +94,8 @@ function initMessageHandler(ws) {
 
 //마지막 최신 블록 담아서 보내줌
 function responseLatestMsg() {
+  const { getLastBlock } = require("./r_blockchain");
+
   return {
     type: MessageType.RESPONSE_BLOCKCHAIN,
     data: JSON.stringify([getLastBlock()]),
@@ -101,12 +103,16 @@ function responseLatestMsg() {
 }
 //블록들 다 가져와 보내줌
 function responseAllChainMsg() {
+  const { getBlocks } = require("./r_blockchain");
+
   return {
     type: MessageType.RESPONSE_BLOCKCHAIN,
     data: JSON.stringify(getBlocks()),
   };
 }
 function handleBlockChainResponse(message) {
+  const { getLastBlock } = require("./r_blockchain");
+
   const receiveBlocks = JSON.parse(message.data);
   //받은 것중에 마지막꺼
   const latestReceiveBlock = receiveBlocks[receiveBlocks.length - 1];
@@ -129,6 +135,7 @@ function handleBlockChainResponse(message) {
     } // 아닐 때는 내 전체 블록이 다른 블록보다 동기화가 안된상황,
     else {
       //지금받은 걸로 통채를 갈아끼워야함
+      console.log("여기 들어오지않니");
       replaceChain(receiveBlocks);
     }
   } else {
