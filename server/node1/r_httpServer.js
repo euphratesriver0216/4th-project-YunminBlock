@@ -7,7 +7,7 @@ const bodyParser = require("body-parser");
 const { sequelize } = require("../models");
 
 app.use(bodyParser.urlencoded({ extended: false }));
-app.use(cors());
+
 app.use(bodyParser.json());
 // const Blockchain = require("../models/blockchain");
 const {
@@ -40,16 +40,16 @@ sequelize
       blockchainInit(bc);
     });
   }); //  dbBlockCheck -> db에 있는 bc를 검증하는 함수
-
 function initHttpServer() {
   const app = express();
+  app.use(cors());
   app.use(bodyParser.json());
   //추가
-  app.post("/addPeers", (req, res) => {
-    const data = req.body.data || [];
-    // console.log(data);
-    connectToPeers(data);
-    res.send(data);
+  app.get("/addPeers", (req, res) => {
+    // const data = req.body.data || [];
+    console.log("-------------------------------------------------");
+    connectToPeers(["ws://localhost:6002"]);
+    res.send();
   });
 
   app.get("/peers", (req, res) => {
@@ -65,7 +65,6 @@ function initHttpServer() {
   //   credentials: true,
   // };
 
-  app.use(cors());
   app.get("/blocks", (req, res) => {
     console.log("getBlock=== ", getBlocks());
     res.send(getBlocks());

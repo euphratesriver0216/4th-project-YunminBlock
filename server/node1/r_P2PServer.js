@@ -51,25 +51,23 @@ function broadcast(message) {
 
 // 연결
 function connectToPeers(newPeers) {
-  newPeers.forEach((peer) => {
-    const ws = new WebSocket(peer);
-    ws.on("open", () => {
-      console.log("open");
-      initConnection(ws);
-    });
-    ws.on("error", (errorType) => {
-      console.log("connection Failed") + errorType;
-    });
+  const ws = new WebSocket(newPeers);
+  ws.on("open", () => {
+    console.log("open");
+    initConnection(ws);
+  });
+  ws.on("error", (errorType) => {
+    console.log("connection Failed") + errorType;
   });
 }
 
 //메세지 핸들러 message handler
 const MessageType = {
-  //내가 가지고 있는 가장 최신 블록을 담아서 보내줌
+  // 상대의 마지막 블록을 달라고 하고 싶으면
   QUERY_LATEST: 0,
-  //내가 가지고 있는 데이터필드 전체에 블록 담아서 보낼때
+  // 상대의 모든 블록을 달라고 하고 싶으면
   QUERY_ALL: 1,
-  //데이터필드에 하나 이상의 블록이 있을 때 회신할 때는 이타입으로 한다
+  // 내 블록을 상대에게 보내려면
   RESPONSE_BLOCKCHAIN: 2,
 };
 

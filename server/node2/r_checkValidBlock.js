@@ -45,7 +45,7 @@ function isValidNewBlock(newBlock, prevBlock) {
       ("0", repeat(64) !== newBlock.header.merkleRoot)) ||
     (newBlock.body.length !== 0 &&
       merkle("sha256").sync(newBlock.body).root() !==
-      newBlock.header.merkleRoot)
+        newBlock.header.merkleRoot)
   ) {
     console.log("Invalid merkleRoot");
     return false;
@@ -57,13 +57,14 @@ function isValidNewBlock(newBlock, prevBlock) {
 }
 
 function isValidChain(newBlocks) {
+  const { Blocks } = require("./r_blockchain");
   //제네시스블록부터 확인,0번이 제네시스블록임
   if (JSON.stringify(newBlocks[0]) !== JSON.stringify(Blocks[0])) {
     return false;
   }
   var tempBlocks = [newBlocks[0]];
   for (var i = 1; i < newBlocks.length; i++) {
-    if (isValidNewBlock(newBlock[i], tempBlocks[i - 1])) {
+    if (isValidNewBlock(newBlocks[i], tempBlocks[i - 1])) {
       tempBlocks.push(newBlocks[i]);
     } else {
       return false;
