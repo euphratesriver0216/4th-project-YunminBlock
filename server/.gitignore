@@ -1,3 +1,3 @@
 node_modules
-wallet
-wallet
+server/node1/wallet
+server/node2/wallet
