@@ -1,5 +1,6 @@
 const Sequelize = require("sequelize");
 const Blockchain = require("./blockchain");
+const Blockchain2 = require("./blockchain2");
 const env = process.env.NODE_ENV || "development";
 const config = require(__dirname + "/../config/config.json")[env];
 const db = {};
@@ -15,7 +16,11 @@ const sequelize = new Sequelize(
 db.sequelize = sequelize;
 db.Sequelize = Sequelize;
 db.Blockchain = Blockchain;
+db.Blockchain2 = Blockchain2;
 
 Blockchain.init(sequelize);
+Blockchain2.init(sequelize);
+
 Blockchain.associate(db);
+Blockchain2.associate(db);
 module.exports = db;

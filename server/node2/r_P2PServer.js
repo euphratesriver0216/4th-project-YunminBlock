@@ -2,7 +2,7 @@
 // 사용자와 노드간의 통신
 
 //포트설정
-const p2p_port = process.env.P2P_PORT || 6001;
+const p2p_port = process.env.P2P_PORT || 6002;
 const WebSocket = require("ws");
 const {
   createHash,
@@ -21,7 +21,7 @@ function initP2PServer(test_port) {
   console.log("Listening webSocket port : " + test_port);
 }
 
-initP2PServer(6001);
+initP2PServer(6002);
 
 let sockets = [];
 
@@ -49,7 +49,6 @@ function broadcast(message) {
 }
 //
 
-// 연결
 function connectToPeers(newPeers) {
   newPeers.forEach((peer) => {
     const ws = new WebSocket(peer);

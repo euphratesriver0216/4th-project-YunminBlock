@@ -7,7 +7,7 @@ const merkle = require("merkle");
 const cryptojs = require("crypto-js"); //암호화
 const { isValidChain } = require("./r_checkValidBlock");
 const { importBlockDB } = require("./r_util");
-const { Blockchain } = require("../models");
+const { Blockchain2 } = require("../models");
 
 //예상 채굴시간을 변수로 설정한다
 const BLOCK_GENERATION_INTERVAL = 10; //second
@@ -352,7 +352,8 @@ function blockchainInit(YM) {
 
   if (Blocks.length === 0) {
     //0이면 제네시스없는거니깐 넣어주셈
-    Blockchain.create({ Blockchain: createGenesisBlock() });
+    console.log(1414234);
+    Blockchain2.create({ Blockchain: createGenesisBlock() });
     Blocks.push(createGenesisBlock());
   }
 }
