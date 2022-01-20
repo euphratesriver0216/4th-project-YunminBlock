@@ -92,9 +92,9 @@ let Blocks = [createGenesisBlock()];
 function getBlocks() {
   //db를 띄우게 해보자고 넣어본 함수인데
   //콘솔로 정보들어오는것만확인함
-  const GET_BLOCK = importBlockDB();
-  console.log("겟", GET_BLOCK);
-  return GET_BLOCK;
+  // const GET_BLOCK = importBlockDB();
+  // console.log("겟", GET_BLOCK);
+  return ym;
 }
 
 //제일 마지막에 만든 블록가져오는 함수
@@ -344,6 +344,20 @@ function isValidTimestamp(newBlock, prevBlock) {
   return true;
 }
 
+let ym = [];
+function blockchainInit(YM) {
+  YM.forEach((blocks) => {
+    // DB에 있는 제이슨 형식의 블록들을 객체형식으로 가져와서 bc배열에 푸시푸시
+    ym.push(blocks.Blockchain);
+  });
+
+  if (ym.length === 0) {
+    //0이면 제네시스없는거니깐 넣어주셈
+    Blockchain.create({ Blockchain: createGenesisBlock() });
+    ym.push(createGenesisBlock());
+  }
+}
+
 //다음블록생성 출력하기
 // const block1 = nextBlock(["Test"]);
 // console.log(object);
@@ -366,4 +380,5 @@ module.exports = {
   replaceChain,
   BlockHeader,
   Block,
+  blockchainInit,
 }; //내보내주는거

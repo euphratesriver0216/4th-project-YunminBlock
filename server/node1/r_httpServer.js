@@ -16,6 +16,7 @@ const {
   nextBlock,
   getVersion,
   addBlock,
+  blockchainInit,
 } = require("./r_blockchain");
 const {
   connectToPeers,
@@ -28,24 +29,15 @@ const { importBlockDB } = require("./r_util");
 const Blockchain = require("../models/blockchain");
 
 const http_port = process.env.HTTP_PORT || 3001;
+
 //--------------------------추가 부분 --------------------
 sequelize
   .sync({ force: false })
   //이미 db가 있으면 force 가 true면 table을 새로 만들고 false 일 경우 기존 table 사용
   .then(() => {
     console.log("db에 연결 해줄껭");
-    Blockchain.findAll().then((YM) => {
-      let ym = [];
-      YM.forEach((blocks) => {
-        // DB에 있는 제이슨 형식의 블록들을 객체형식으로 가져와서 bc배열에 푸시푸시
-        ym.push(blocks.Blockchain);
-      });
-
-      if (ym.length === 0) {
-        //0이면 제네시스없는거니깐 넣어주셈
-        Blockchain.create({ Blockchain: createGenesisBlock() });
-        ym.push(createGenesisBlock());
-      }
+    Blockchain.findAll().then((bc) => {
+      blockchainInit(bc);
     });
   }); //  dbBlockCheck -> db에 있는 bc를 검증하는 함수
 
