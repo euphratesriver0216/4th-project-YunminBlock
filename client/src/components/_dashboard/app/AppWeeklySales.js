@@ -64,6 +64,10 @@ export default function AppWeeklySales() {
   const [blockData, setblockData] = useState('');
   const [chainBlocks, setChainBlocks] = useState([]);
 
+  const addPeers = async () => {
+    await axios.get(`http://localhost:3001/addPeers`).then((req) => console.log(req.data));
+  };
+
   const connectToHttp = async () => {
     await axios.get(`http://localhost:3001/Blocks`).then((req) => setChainBlocks(req.data));
   };
@@ -102,6 +106,7 @@ export default function AppWeeklySales() {
       <Grid>
         <Button onClick={connectToHttp}>START TO MINEBLOCK</Button>
         {/* <div>{JSON.stringify(blockData)}</div> */}
+        <Button onClick={addPeers}>ADD PEERS</Button>
       </Grid>
 
       <Input
