@@ -13,19 +13,19 @@ const getIcon = (name) => <Icon icon={name} width={22} height={22} />;
 
 const sidebarConfig = [
   {
-    title: 'CHAINDED BLOCKS',
+    title: 'NODE 1',
     path: '/dashboard/app',
     icon: getIcon(pieChart2Fill)
+  },
+  {
+    title: 'NODE 2',
+    path: '/dashboard/products',
+    icon: getIcon(shoppingBagFill)
   },
   {
     title: 'WALLET',
     path: '/dashboard/user',
     icon: getIcon(peopleFill)
-  },
-  {
-    title: 'ETC',
-    path: '/dashboard/products',
-    icon: getIcon(shoppingBagFill)
   }
 ];
 

@@ -190,7 +190,7 @@ function addBlock(newBlock) {
   const Blockchain = require("../models/blockchain");
   // const newBlock = nextBlock(bodyData);
   // console.log("블록스찍히나", Blocks);
-  Blocks.push(newBlock);
+  ym.push(newBlock);
   Blockchain.create({ Blockchain: newBlock });
 }
 

@@ -20,6 +20,10 @@ const RootStyle = styled(Card)(({ theme }) => ({
   backgroundColor: theme.palette.primary.lighter
 }));
 
+const marginBottom = {
+  marginBottom: '100px'
+};
+
 const IconWrapperStyle = styled('div')(({ theme }) => ({
   margin: 'auto',
   display: 'flex',
@@ -58,78 +62,71 @@ function useInterval(callback, delay) {
 }
 export default function AppWeeklySales() {
   const [blockData, setblockData] = useState('');
-  const [chainBlocks, setChainBlocks] = useState();
-  // const reverse = [...chainBlocks].reverse();
-  // console.log(reverse);
-  // 배열뒤집어주기
+  const [chainBlocks, setChainBlocks] = useState([]);
 
   const connectToHttp = async () => {
-    await axios.get(`http://localhost:3001/blocks`).then((res) => {
-      console.log('1111', chainBlocks);
-      setChainBlocks(res.data);
-      console.log('2222', chainBlocks);
-    });
+    await axios.get(`http://localhost:3001/Blocks`).then((req) => setChainBlocks(req.data));
   };
   const blockMaker = async () => {
     const data = blockData;
     if (data.length === 0) {
       return alert(`데이터를 넣으세요`);
     }
-    await axios.post(`http://localhost:3001/mineBlock`, { data: [data] }).then((res) => {
-      alert(`${blockData} 이(가) 블럭에 추가되었습니다.`);
-      console.log('받은 데이터 : ', res.data);
-
-      setChainBlocks(res.data);
-    });
+    await axios
+      .post(`http://localhost:3001/mineBlock`, { data: [data] })
+      .then((req) => alert(req.data));
   };
 
-  // const [count, setCount] = useState(0);
-  // const [delay, setDelay] = useState(1000);
-  // const [isRunning, setIsRunning] = useState(false);
-  // const [ok, setOk] = useState(false);
+  const [count, setCount] = useState(0);
+  const [delay, setDelay] = useState(1000);
+  const [isRunning, setIsRunning] = useState(false);
+  const [ok, setOk] = useState(false);
 
-  // useInterval(
-  //   () => {
-  //     const data = blockData || 'ararar';
-  //     setIsRunning(false);
-  //     console.log('이거 채굴기임');
-  //     axios.post(`http://localhost:3001/mineBlock`, { data: [data] }).then((req) => {
-  //       console.log(req.data);
-  //       setIsRunning(true);
-  //     });
+  useInterval(
+    () => {
+      const data = blockData || 'ararar';
+      setIsRunning(false);
+      axios.post(`http://localhost:3001/mineBlock`, { data: [data] }).then((req) => {
+        console.log(req.data);
+        setIsRunning(true);
+      });
 
-  //     setCount(count + 1);
-  //   },
-  //   isRunning && ok ? delay : null
-  // );
+      setCount(count + 1);
+    },
+    isRunning && ok ? delay : null
+  );
   return (
-    <RootStyle>
+    <Grid>
       <Typography variant="h3">NODE no.1</Typography>
-      <Grid> YUN </Grid>
-      <Button type="dashed" onClick={connectToHttp}>
-        START TO MINEBLOCK
-      </Button>
 
-      {/* {reverse} */}
-      {/* {chainBlocks} */}
-      {/* {{ chainBlocks } ? chainBlocks : null} */}
-      {/* <div>{JSON.stringify(chainBlocks)}</div> */}
+      <Grid>
+        <Button onClick={connectToHttp}>START TO MINEBLOCK</Button>
+        {/* <div>{JSON.stringify(blockData)}</div> */}
+      </Grid>
+
       <Input
         placeholder="bodydata"
         type="text"
         onChange={(e) => {
           setblockData(e.target.value);
         }}
-        // value="바디에 넣을 값 입력하세요"
+        value={blockData}
       />
       <Button onClick={blockMaker}>채굴</Button>
-      <div>{JSON.stringify(blockData)}</div>
+      {/* <div>{JSON.stringify(blockData)}</div> */}
       {chainBlocks &&
         chainBlocks.map((a) => (
-          <div key={a.header.index}>
-            <div>{a.body}</div>
+          <div style={marginBottom} key={a.header.index}>
+            <div>바디 : {a.body}</div>
+            <div>인덱스 : {a.header.index}</div>
+            <div>넌스 : {a.header.nonce}</div>
+            <div>버전 : {a.header.version}</div>
+            <div>시간 : {a.header.timestamp}</div>
+            <div>난이도 : {a.header.difficulty}</div>
+            <div>머클 루트 : {a.header.merkleRoot}</div>
+            <div>이전 해쉬 : {a.header.previousHash}</div>
           </div>
         ))}
-    </RootStyle>
+    </Grid>
   );
 }
