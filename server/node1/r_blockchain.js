@@ -85,7 +85,7 @@ function createGenesisBlock() {
 }
 
 //블록 여러개 저장할 수 있는 배열을 만들어줌
-let Blocks = [createGenesisBlock()];
+let Blocks = [];
 // console.log(Blocks);
 
 //현재 있는 함수들 다 가져오는 함수
@@ -94,7 +94,7 @@ function getBlocks() {
   //콘솔로 정보들어오는것만확인함
   // const GET_BLOCK = importBlockDB();
   // console.log("겟", GET_BLOCK);
-  return ym;
+  return Blocks;
 }
 
 //제일 마지막에 만든 블록가져오는 함수
@@ -190,7 +190,7 @@ function addBlock(newBlock) {
   const Blockchain = require("../models/blockchain");
   // const newBlock = nextBlock(bodyData);
   // console.log("블록스찍히나", Blocks);
-  ym.push(newBlock);
+  Blocks.push(newBlock);
   Blockchain.create({ Blockchain: newBlock });
 }
 
@@ -348,13 +348,13 @@ let ym = [];
 function blockchainInit(YM) {
   YM.forEach((blocks) => {
     // DB에 있는 제이슨 형식의 블록들을 객체형식으로 가져와서 bc배열에 푸시푸시
-    ym.push(blocks.Blockchain);
+    Blocks.push(blocks.Blockchain);
   });
 
   if (ym.length === 0) {
     //0이면 제네시스없는거니깐 넣어주셈
     Blockchain.create({ Blockchain: createGenesisBlock() });
-    ym.push(createGenesisBlock());
+    Blocks.push(createGenesisBlock());
   }
 }
 

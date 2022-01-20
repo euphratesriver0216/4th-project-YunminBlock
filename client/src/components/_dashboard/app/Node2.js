@@ -97,7 +97,7 @@ export default function AppWeeklySales() {
   );
   return (
     <Grid>
-      <Typography variant="h3">NODE no.2 / 수정전 </Typography>
+      <Typography variant="h3">NODE no.2</Typography>
 
       <Grid>
         <Button onClick={connectToHttp}>START TO MINEBLOCK</Button>
@@ -116,7 +116,7 @@ export default function AppWeeklySales() {
       {/* <div>{JSON.stringify(blockData)}</div> */}
       {chainBlocks &&
         chainBlocks.map((a) => (
-          <div style={marginBottom} key={a.header.index}>
+          <div style={marginBottom} key={a.header}>
             <div>바디 : {a.body}</div>
             <div>인덱스 : {a.header.index}</div>
             <div>넌스 : {a.header.nonce}</div>

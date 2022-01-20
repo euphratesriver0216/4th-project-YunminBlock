@@ -2,6 +2,7 @@
 // 사용자와 노드간의 통신
 const express = require("express");
 const bodyParser = require("body-parser");
+const cors = require("cors");
 const {
   getBlocks,
   nextBlock,
@@ -36,6 +37,8 @@ function initHttpServer() {
   app.get("/blocks", (req, res) => {
     res.send(getBlocks());
   });
+
+  app.use(cors());
 
   app.get("/version", (req, res) => {
     res.send(getVersion());
