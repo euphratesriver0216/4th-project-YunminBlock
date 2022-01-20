@@ -126,7 +126,7 @@ function responseAllChainMsg() {
 function handleBlockChainResponse(message) {
   const { getLastBlock } = require("./r_blockchain");
   const { createHash } = require("./r_blockchain");
-  const { addBlock } = require("./r_blockchain");
+  const { addBlock } = require("./r_checkValidBlock");
   const { replaceChain } = require("./r_blockchain");
 
   // 메시지로 받은 객체 {타입, 블록} 에서 블록을 receiveBlocks에 담기
