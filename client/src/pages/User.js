@@ -5,6 +5,7 @@ import { sentenceCase } from 'change-case';
 import { useState } from 'react';
 import plusFill from '@iconify/icons-eva/plus-fill';
 import { Link as RouterLink } from 'react-router-dom';
+import axios from 'axios';
 // material
 import {
   Grid,
@@ -81,6 +82,22 @@ export default function User() {
   const [orderBy, setOrderBy] = useState('name');
   const [filterName, setFilterName] = useState('');
   const [rowsPerPage, setRowsPerPage] = useState(5);
+  const [wallet2, setwallet2] = useState();
+  const [wallet, setwallet] = useState();
+
+  const address = () => {
+    axios.get(`http://localhost:3001/address`).then((res) => {
+      setWallet(res.data.address);
+      console.log(res);
+    });
+  };
+
+  const address2 = () => {
+    axios.get(`http://localhost:3002/address`).then((res) => {
+      setWallet2(res.data.address);
+      console.log(res);
+    });
+  };
 
   const handleRequestSort = (event, property) => {
     const isAsc = orderBy === property && order === 'asc';
@@ -153,20 +170,27 @@ export default function User() {
 
         <Card>
           <Grid>WALLET</Grid>
-
-          <Container>
-            <Box>
-              문제
-              <Grid>
-                <Grid item md={6}>
-                  NODE 1
+          <Card>
+            <Container>
+              <Box>
+                <Grid>
+                  <Card>
+                    <Button onClick={address}>지갑가져오기</Button>
+                    <Grid item md={6}>
+                      NODE 1 : <div>{Wallet}</div>
+                    </Grid>
+                  </Card>
+                  <Card>
+                    <Button onClick={address2}>지갑가져오기</Button>
+                    <Grid item md={6}>
+                      NODE 2 : <div>{Wallet2}</div>
+                    </Grid>
+                  </Card>
                 </Grid>
-                <Grid item md={6}>
-                  NODE 2
-                </Grid>
-              </Grid>
-            </Box>
-          </Container>
+              </Box>
+            </Container>
+          </Card>
+          ;
         </Card>
       </Container>
     </Page>
