@@ -10,6 +10,7 @@ const {
   // nextBlock,
   // isValidTimestamp,
 } = require("./r_blockchain");
+const { Blockchain } = require("../models");
 const merkle = require("merkle");
 
 function isValidBlockStructure(block) {
@@ -81,6 +82,8 @@ function addBlock(newBlock) {
   if (isValidNewBlock(newBlock, getLastBlock())) {
     const { Blocks } = require("./r_blockchain");
     Blocks.push(newBlock);
+    Blockchain.create({ Blockchain: newBlock });
+
     return true;
   }
   return false;
@@ -92,4 +95,5 @@ function addBlock(newBlock) {
 module.exports = {
   addBlock,
   isValidChain,
+  isValidBlockStructure,
 };

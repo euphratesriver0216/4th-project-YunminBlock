@@ -187,15 +187,15 @@ function nextBlock(bodyData) {
 
 //블록 추가하는 함수
 //넣는 인자 bodyData에서 newBlock으로 바꿈요
-function addBlock(newBlock) {
-  // const Blockchain2 = require("../models/blockchain2");
-  // const newBlock = nextBlock(bodyData);
-  // console.log("블록스찍히나", Blocks);
-  Blocks.push(newBlock);
-  Blockchain2.create({ Blockchain: newBlock });
-}
+// function addBlock(newBlock) {
+//   // const Blockchain2 = require("../models/blockchain2");
+//   // const newBlock = nextBlock(bodyData);
+//   // console.log("블록스찍히나", Blocks);
+//   Blocks.push(newBlock);
+//   Blockchain2.create({ Blockchain: newBlock });
+// }
 
-function replaceChain(newBlocks) {
+async function replaceChain(newBlocks) {
   if (isValidChain(newBlocks)) {
     if (
       newBlocks.length > Blocks.length ||
@@ -203,6 +203,13 @@ function replaceChain(newBlocks) {
     ) {
       Blocks = newBlocks;
       P2PServer.broadcast(P2PServer.responseLatestMsg());
+
+      // 새로 받은 블록체인으로 교체하기 위해 DB를 먼저 비워줌
+      Blockchain2.destroy({ where: {}, truncate: true });
+      // 받은 블록체인을 제네시스 블록부터 순서대로 집어넣어줌
+      for (let i = 0; i < newBlocks.length; i++) {
+        await Blockchain2.create({ BlockChain: newBlocks[i] });
+      }
     }
   } else {
     // console.log("받은 원장에 문제가 있음");
@@ -375,7 +382,7 @@ module.exports = {
   Blocks,
   getLastBlock,
   nextBlock,
-  addBlock,
+  // addBlock,
   getVersion,
   createGenesisBlock,
   replaceChain,
