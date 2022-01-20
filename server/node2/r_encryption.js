@@ -8,7 +8,7 @@ const ecdsa = require("elliptic");
 const ec = new ecdsa.ec("secp256k1");
 
 const privateKeyLocation =
-  "node1/wallet/" + (process.env.PRIVATE_KEY || "default");
+  "node2/wallet/" + (process.env.PRIVATE_KEY || "default");
 const privateKeyFile = privateKeyLocation + "/private_key";
 
 function initWallet() {
@@ -16,8 +16,8 @@ function initWallet() {
     console.log("기존지갑 private key 경로 :" + privateKeyFile);
     return;
   }
-  if (!fs.existsSync("node1/wallet/")) {
-    fs.mkdirSync("node1/wallet/");
+  if (!fs.existsSync("node2/wallet/")) {
+    fs.mkdirSync("node2/wallet/");
   }
   if (!fs.existsSync(privateKeyLocation)) {
     fs.mkdirSync(privateKeyLocation);

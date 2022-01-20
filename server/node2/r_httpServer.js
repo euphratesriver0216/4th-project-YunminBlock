@@ -124,7 +124,6 @@ function initHttpServer() {
 }
 
 initHttpServer();
-initWallet();
 
 //db띄우는함수
 // importBlockDB();
