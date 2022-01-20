@@ -15,9 +15,10 @@ const {
   getBlocks,
   nextBlock,
   getVersion,
-  addBlock,
+  // addBlock,
   blockchainInit,
 } = require("./r_blockchain");
+const { addBlock } = require("./r_checkValidBlock");
 const {
   connectToPeers,
   getSockets,
@@ -47,7 +48,6 @@ function initHttpServer() {
   //추가
   app.get("/addPeers", (req, res) => {
     // const data = req.body.data || [];
-    console.log("-------------------------------------------------");
     connectToPeers(["ws://localhost:6002"]);
     res.send();
   });

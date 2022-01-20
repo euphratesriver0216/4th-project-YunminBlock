@@ -188,7 +188,6 @@ function nextBlock(bodyData) {
 //블록 추가하는 함수
 //넣는 인자 bodyData에서 newBlock으로 바꿈요
 // function addBlock(newBlock) {
-//   // const Blockchain2 = require("../models/blockchain2");
 //   // const newBlock = nextBlock(bodyData);
 //   // console.log("블록스찍히나", Blocks);
 //   Blocks.push(newBlock);
@@ -208,11 +207,11 @@ async function replaceChain(newBlocks) {
       Blockchain2.destroy({ where: {}, truncate: true });
       // 받은 블록체인을 제네시스 블록부터 순서대로 집어넣어줌
       for (let i = 0; i < newBlocks.length; i++) {
-        await Blockchain2.create({ BlockChain: newBlocks[i] });
+        await Blockchain2.create({ Blockchain: newBlocks[i] });
       }
     }
   } else {
-    // console.log("받은 원장에 문제가 있음");
+    console.log("받은 원장에 문제가 있음");
   }
 }
 
@@ -360,7 +359,6 @@ function blockchainInit(YM) {
 
   if (Blocks.length === 0) {
     //0이면 제네시스없는거니깐 넣어주셈
-    console.log(1414234);
     Blockchain2.create({ Blockchain: createGenesisBlock() });
     Blocks.push(createGenesisBlock());
   }

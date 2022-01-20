@@ -65,7 +65,9 @@ export default function AppWeeklySales() {
   const [chainBlocks, setChainBlocks] = useState([]);
 
   const addPeers = async () => {
-    await axios.get(`http://localhost:3001/addPeers`).then((req) => console.log(req.data));
+    await axios
+      .get(`http://localhost:3001/addPeers`)
+      .then((req) => alert('ws://localhost:6002 와 연결합니다'));
   };
 
   const connectToHttp = async () => {

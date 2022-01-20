@@ -207,11 +207,11 @@ async function replaceChain(newBlocks) {
       Blockchain.destroy({ where: {}, truncate: true });
       // 받은 블록체인을 제네시스 블록부터 순서대로 집어넣어줌
       for (let i = 0; i < newBlocks.length; i++) {
-        await Blockchain.create({ BlockChain: newBlocks[i] });
+        await Blockchain.create({ Blockchain: newBlocks[i] });
       }
     }
   } else {
-    // console.log("받은 원장에 문제가 있음");
+    console.log("받은 원장에 문제가 있음");
   }
 }
 

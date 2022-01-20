@@ -7,7 +7,7 @@ const bodyParser = require("body-parser");
 const { sequelize } = require("../models");
 
 app.use(bodyParser.urlencoded({ extended: false }));
-app.use(cors());
+
 app.use(bodyParser.json());
 // const Blockchain = require("../models/blockchain");
 const {
@@ -15,9 +15,11 @@ const {
   getBlocks,
   nextBlock,
   getVersion,
-  addBlock,
+  // addBlock,
   blockchainInit,
 } = require("./r_blockchain");
+const { addBlock } = require("./r_checkValidBlock");
+
 const {
   connectToPeers,
   getSockets,
@@ -43,13 +45,14 @@ sequelize
 
 function initHttpServer() {
   const app = express();
+  app.use(cors());
   app.use(bodyParser.json());
   //추가
-  app.post("/addPeers", (req, res) => {
-    const data = req.body.data || [];
+  app.get("/addPeers", (req, res) => {
+    // const data = req.body.data || [];
     // console.log(data);
-    connectToPeers(data);
-    res.send(data);
+    connectToPeers(["ws://localhost:6002"]);
+    res.send();
   });
 
   app.get("/peers", (req, res) => {
@@ -65,7 +68,6 @@ function initHttpServer() {
   //   credentials: true,
   // };
 
-  app.use(cors());
   app.get("/blocks", (req, res) => {
     console.log("getBlock=== ", getBlocks());
     res.send(getBlocks());

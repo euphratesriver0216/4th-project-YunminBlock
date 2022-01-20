@@ -61,6 +61,7 @@ function isValidChain(newBlocks) {
   const { Blocks } = require("./r_blockchain");
   //제네시스블록부터 확인,0번이 제네시스블록임
   if (JSON.stringify(newBlocks[0]) !== JSON.stringify(Blocks[0])) {
+    console.log("새로받은 블록체인이랑 내 블록체인의 제네시스 블록이 달라요");
     return false;
   }
   var tempBlocks = [newBlocks[0]];
