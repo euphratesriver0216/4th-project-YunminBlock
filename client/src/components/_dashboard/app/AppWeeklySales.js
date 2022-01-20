@@ -80,7 +80,7 @@ export default function AppWeeklySales() {
     }
     await axios
       .post(`http://localhost:3001/mineBlock`, { data: [data] })
-      .then((req) => alert(req.data));
+      .then((req) => alert('블록이 생성되었습니다'));
   };
 
   const [count, setCount] = useState(0);
