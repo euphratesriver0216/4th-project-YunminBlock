@@ -58,14 +58,15 @@ function useInterval(callback, delay) {
 }
 export default function AppWeeklySales() {
   const [blockData, setblockData] = useState('');
-  const [chainBlocks, setChainBlocks] = useState([]);
+  const [chainBlocks, setChainBlocks] = useState();
   // const reverse = [...chainBlocks].reverse();
+  // console.log(reverse);
   // 배열뒤집어주기
 
   const connectToHttp = async () => {
-    await axios.get(`http://localhost:3001/blocks`).then((req) => {
+    await axios.get(`http://localhost:3001/blocks`).then((res) => {
       console.log('1111', chainBlocks);
-      setChainBlocks(req.data);
+      setChainBlocks(res.data);
       console.log('2222', chainBlocks);
     });
   };
@@ -74,9 +75,12 @@ export default function AppWeeklySales() {
     if (data.length === 0) {
       return alert(`데이터를 넣으세요`);
     }
-    await axios
-      .post(`http://localhost:3001/mineBlock`, { data: [data] })
-      .then((req) => alert(`${blockData} 이(가) 블럭에 추가되었습니다.`));
+    await axios.post(`http://localhost:3001/mineBlock`, { data: [data] }).then((res) => {
+      alert(`${blockData} 이(가) 블럭에 추가되었습니다.`);
+      console.log('받은 데이터 : ', res.data);
+
+      setChainBlocks(res.data);
+    });
   };
 
   // const [count, setCount] = useState(0);
@@ -105,15 +109,9 @@ export default function AppWeeklySales() {
       <Button type="dashed" onClick={connectToHttp}>
         START TO MINEBLOCK
       </Button>
-      {/* {reverse.map((a) => {
-        return (
-          <div key={a.header.index}>
-            <div>{a.body}</div>
-          </div>
-        );
-      })} */}
+
       {/* {reverse} */}
-      {/* {chainBlocks[0]} */}
+      {/* {chainBlocks} */}
       {/* {{ chainBlocks } ? chainBlocks : null} */}
       {/* <div>{JSON.stringify(chainBlocks)}</div> */}
       <Input
@@ -122,10 +120,16 @@ export default function AppWeeklySales() {
         onChange={(e) => {
           setblockData(e.target.value);
         }}
-        value={blockData}
+        // value="바디에 넣을 값 입력하세요"
       />
       <Button onClick={blockMaker}>채굴</Button>
       <div>{JSON.stringify(blockData)}</div>
+      {chainBlocks &&
+        chainBlocks.map((a) => (
+          <div key={a.header.index}>
+            <div>{a.body}</div>
+          </div>
+        ))}
     </RootStyle>
   );
 }

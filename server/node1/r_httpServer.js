@@ -67,6 +67,7 @@ function initHttpServer() {
 
   app.use(cors());
   app.get("/blocks", (req, res) => {
+    console.log("getBlock=== ", getBlocks());
     res.send(getBlocks());
   });
 
