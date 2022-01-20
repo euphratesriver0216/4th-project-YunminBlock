@@ -4,7 +4,7 @@ import { Box, Grid, Container, Typography, Button } from '@mui/material';
 import Page from '../components/Page';
 import {
   // AppTasks,
-  AppNewUsers,
+  // AppNewUsers,
   // AppBugReports,
   // AppItemOrders,
   // AppNewsUpdate,
@@ -37,7 +37,7 @@ export default function DashboardApp() {
           </Grid>
           {/* node 2 */}
           <Grid item md={6}>
-            <AppNewUsers />
+            {/* <AppNewUsers /> */}
           </Grid>
         </Grid>
       </Container>
