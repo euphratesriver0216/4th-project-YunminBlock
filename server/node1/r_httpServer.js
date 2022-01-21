@@ -40,8 +40,10 @@ function initHttpServer() {
     });
     res.send(sockInfo);
   });
-
-  app.get("/blocks", (req, res) => {
+  console.log(33333333333);
+  app.get("/api/blocks", (req, res) => {
+    console.log(req.body);
+    console.log(4444444444444);
     res.send(getBlocks());
   });
 
