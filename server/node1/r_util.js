@@ -6,7 +6,7 @@ async function importBlockDB() {
   const Blockchain = require("../models/blockchain");
 
   const test = await Blockchain.findAll({ raw: true });
-  console.log("->", test);
+  // console.log("->", test);
   return test;
 }
 
