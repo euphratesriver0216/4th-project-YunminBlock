@@ -55,4 +55,5 @@ function getPublicKeyFromWallet() {
   return key.getPublic().encode("hex");
 }
 
+//지갑잔고 확인하기
 module.exports = { getPublicKeyFromWallet, initWallet };

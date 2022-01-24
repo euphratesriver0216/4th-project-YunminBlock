@@ -76,7 +76,7 @@ export default function AppWeeklySales() {
   const blockMaker = async () => {
     const data = blockData;
     if (data.length === 0) {
-      return alert(`데이터를 넣으세요`);
+      return alert(`데이터를 넣어 주세요.`);
     }
     await axios
       .post(`http://localhost:3001/mineBlock`, { data: [data] })
@@ -104,7 +104,6 @@ export default function AppWeeklySales() {
   return (
     <Grid>
       <Typography variant="h3">NODE no.1</Typography>
-
       <Grid>
         <Button onClick={connectToHttp}>START TO MINEBLOCK</Button>
         {/* <div>{JSON.stringify(blockData)}</div> */}
