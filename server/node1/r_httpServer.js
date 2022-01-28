@@ -36,7 +36,7 @@ sequelize
   .sync({ force: false })
   //이미 db가 있으면 force 가 true면 table을 새로 만들고 false 일 경우 기존 table 사용
   .then(() => {
-    console.log("db에 연결 해줄껭");
+    console.log("DB에 연결합니다.");
     Blockchain.findAll().then((bc) => {
       blockchainInit(bc);
     });
