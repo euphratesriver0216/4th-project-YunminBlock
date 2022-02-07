@@ -2,7 +2,7 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 const _ = require("lodash");
 const transaction_1 = require("./transaction");
-let transactionPool = [];
+let transactionPool = [{},{}];
 
 //TX
 

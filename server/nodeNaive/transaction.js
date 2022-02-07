@@ -1,7 +1,7 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 const CryptoJS = require("crypto-js");
-const ecdsa = require("elliptic");
+const ecdsa = require("elliptic"); //타원곡선
 const _ = require("lodash");
 const ec = new ecdsa.ec("secp256k1");
 const COINBASE_AMOUNT = 50;
@@ -324,10 +324,12 @@ const isValidTransactionStructure = (transaction) => {
 };
 // valid address is a valid ecdsa public key in the 04 + X-coordinate + Y-coordinate format
 const isValidAddress = (address) => {
+  //주소의 길이가 130자 가 아닐 경우 잘못된 공개키 길이다
   if (address.length !== 130) {
     console.log(address);
     console.log("잘못된 공개키 길이이다..");
     return false;
+    //r
   } else if (address.match("^[a-fA-F0-9]+$") === null) {
     console.log("공개키는 16진수 문자만 포함해야함");
     return false;

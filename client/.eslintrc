@@ -66,5 +66,13 @@
     //     "tabWidth": 2
     //   }
     // ]
+  },
+
+  "settings": {
+    "import/resolver": {
+      "node": {
+        "paths": ["src"]
+      }
+    }
   }
 }
