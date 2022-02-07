@@ -50,9 +50,9 @@ const genesisBlock = new Block(
 let blockchain = [genesisBlock];
 //최초 블럭에서 사용되지 않은 txout은  UTXO로 변환된다
 let unspentTxOuts = transaction_1.processTransactions(
-  blockchain[0].data,
-  [],
-  0
+  blockchain[0].data, //제네시스 블럭의 안의 tx들
+  [], //첫장부는 비어있고
+  0 // 블록 인덱스
 );
 
 // 기존 블록체인 가져오기
@@ -130,6 +130,7 @@ const generateRawNextBlock = (blockData) => {
     blockData,
     difficulty
   );
+
   if (addBlockToChain(newBlock)) {
     p2p_1.broadcastLatest();
     return newBlock;
@@ -213,8 +214,8 @@ const sendTransaction = (address, amount) => {
   const tx = wallet_1.createTransaction(
     address,
     amount,
-    wallet_1.getPrivateFromWallet(),
-    getUnspentTxOuts(),
+    wallet_1.getPrivateFromWallet(), //누구의 지갑에서 돈을 꺼낼 것이냐 ..
+    getUnspentTxOuts(), //장부 가져와
     transactionPool_1.getTransactionPool()
   );
   transactionPool_1.addToTransactionPool(tx, getUnspentTxOuts());
@@ -351,6 +352,7 @@ const addBlockToChain = (newBlock) => {
       getUnspentTxOuts(),
       newBlock.index
     );
+
     if (retVal === null) {
       console.log("block is not valid in terms of transactions");
       return false;

@@ -2,7 +2,7 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 const _ = require("lodash");
 const transaction_1 = require("./transaction");
-let transactionPool = [{},{}];
+let transactionPool = [];
 
 //TX
 
@@ -14,10 +14,10 @@ const getTransactionPool = () => {
 exports.getTransactionPool = getTransactionPool;
 const addToTransactionPool = (tx, unspentTxOuts) => {
   if (!transaction_1.validateTransaction(tx, unspentTxOuts)) {
-    throw Error("Trying to add invalid tx to pool");
+    throw Error("잘못된 tx을 pool에 넣으려고 합니다.");
   }
   if (!isValidTxForPool(tx, transactionPool)) {
-    throw Error("Trying to add invalid tx to pool");
+    throw Error("잘못된 tx을 pool에 넣으려고 합니다.");
   }
   console.log("adding to txPool: %s", JSON.stringify(tx));
   transactionPool.push(tx);
@@ -41,7 +41,7 @@ const updateTransactionPool = (unspentTxOuts) => {
   }
   if (invalidTxs.length > 0) {
     console.log(
-      "removing the following transactions from txPool: %s",
+      "txPool에서 다음 트랜잭션을 제거합니다.: %s",
       JSON.stringify(invalidTxs)
     );
     transactionPool = _.without(transactionPool, ...invalidTxs);
@@ -54,6 +54,8 @@ const getTxPoolIns = (aTransactionPool) => {
     .flatten()
     .value();
 };
+
+//유효한 tx를 pool에 입력합니다.
 const isValidTxForPool = (tx, aTtransactionPool) => {
   const txPoolIns = getTxPoolIns(aTtransactionPool);
   const containsTxIn = (txIns, txIn) => {
@@ -66,7 +68,7 @@ const isValidTxForPool = (tx, aTtransactionPool) => {
   };
   for (const txIn of tx.txIns) {
     if (containsTxIn(txPoolIns, txIn)) {
-      console.log("txIn already found in the txPool");
+      console.log("txIn가 이미 txPool에 있어요!");
       return false;
     }
   }

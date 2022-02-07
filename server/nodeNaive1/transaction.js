@@ -51,6 +51,7 @@ const validateTransaction = (transaction, aUnspentTxOuts) => {
     console.log("유효하지 않은 tx " + transaction.id);
     return false;
   }
+
   const totalTxInValues = transaction.txIns
     .map((txIn) => getTxInAmount(txIn, aUnspentTxOuts))
     .reduce((a, b) => a + b, 0);
@@ -76,6 +77,7 @@ const validateBlockTransactions = (
     console.log("잘못된 코인베이스 거래 " + JSON.stringify(coinbaseTx));
     return false;
   }
+  console.log(aTransactions);
   // 중복 txIn을 확인하는것,  각 txIn은 한 번만 포함됨
   const txIns = _(aTransactions)
     .map((tx) => tx.txIns)
@@ -150,7 +152,7 @@ const validateTxIn = (txIn, transaction, aUnspentTxOuts) => {
   const validSignature = key.verify(transaction.id, txIn.signature);
   if (!validSignature) {
     console.log(
-      "invalid txIn signature: %s txId: %s address: %s",
+      "유효하지 않은 txIn 서명: %s txId: %s 지갑: %s",
       txIn.signature,
       transaction.id,
       referencedUTxOut.address
@@ -192,7 +194,7 @@ const signTxIn = (transaction, txInIndex, privateKey, aUnspentTxOuts) => {
     aUnspentTxOuts
   );
   if (referencedUnspentTxOut == null) {
-    console.log("참조된txOut을 찾을수 없어 ㅠ");
+    console.log("참조된txOut을 찾을수 없습니다.");
     throw Error();
   }
   const referencedAddress = referencedUnspentTxOut.address;
@@ -239,6 +241,7 @@ const processTransactions = (aTransactions, aUnspentTxOuts, blockIndex) => {
     console.log("invalid block transactions");
     return null;
   }
+
   return updateUnspentTxOuts(aTransactions, aUnspentTxOuts);
 };
 exports.processTransactions = processTransactions;

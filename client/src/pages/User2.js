@@ -71,7 +71,7 @@ function applySortFilter(array, comparator, query) {
   return stabilizedThis.map((el) => el[0]);
 }
 
-export default function User() {
+export default function User2() {
   const [page, setPage] = useState(0);
   const [order, setOrder] = useState('asc');
   const [selected, setSelected] = useState([]);
@@ -85,7 +85,7 @@ export default function User() {
 
   /* 잔고확인하기 */
   const getBalance = () => {
-    axios.get(`http://localhost:3001/balance`).then((res) => {
+    axios.get(`http://localhost:3002/balance`).then((res) => {
       setBalance(res.data.balance);
       console.log(res.data.balance);
     });
@@ -95,14 +95,14 @@ export default function User() {
     alert('송금하시겠습니까?');
 
     axios
-      .post(`http://localhost:3001/sendTransaction`, { amount: money, address: receiveAdress })
+      .post(`http://localhost:3002/sendTransaction`, { amount: money, address: receiveAdress })
       .then((res) => {
         console.log(res.body);
       });
   };
 
   const address = () => {
-    axios.get(`http://localhost:3001/address`).then((res) => {
+    axios.get(`http://localhost:3002/address`).then((res) => {
       setWallet(res.data.address);
       console.log(res);
     });
@@ -168,7 +168,7 @@ export default function User() {
         <Grid>
           <Button onClick={address}> 내 지갑가져오기</Button>
           <Grid item md={4}>
-            NODE 1 : <div>{Wallet}</div>
+            NODE 2 : <div>{Wallet}</div>
           </Grid>
           {/* 
                 잔고 조회 : button 

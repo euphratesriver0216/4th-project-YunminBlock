@@ -3,6 +3,7 @@ import React, { useState, useRef, useEffect } from 'react';
 import { alpha, styled } from '@mui/material/styles';
 import { Card, Typography, Grid, Button, Input } from '@mui/material';
 import axios from 'axios';
+import User from '../../../pages/User';
 
 // import React, { useEffect } from 'react';
 // utils
@@ -66,7 +67,7 @@ export default function AppWeeklySales() {
 
   const addPeers = async () => {
     await axios
-      .get(`http://localhost:3001/addPeers`)
+      .post(`http://localhost:3001/addPeer`)
       .then((req) => alert('ws://localhost:6002 와 연결합니다'));
   };
 
@@ -119,18 +120,22 @@ export default function AppWeeklySales() {
         value={blockData}
       />
       <Button onClick={blockMaker}>채굴</Button>
+      <User />
       {/* <div>{JSON.stringify(blockData)}</div> */}
       {chainBlocks &&
         chainBlocks.map((a) => (
-          <div style={marginBottom} key={a.header.index}>
-            <div>바디 : {a.body}</div>
-            <div>인덱스 : {a.header.index}</div>
-            <div>넌스 : {a.header.nonce}</div>
-            <div>버전 : {a.header.version}</div>
-            <div>시간 : {a.header.timestamp}</div>
-            <div>난이도 : {a.header.difficulty}</div>
-            <div>머클 루트 : {a.header.merkleRoot}</div>
-            <div>이전 해쉬 : {a.header.previousHash}</div>
+          <div style={marginBottom} key={a.index}>
+            <div>txId : {a.data.map((b) => b.id)}</div>
+            <div>txOutId : {a.data.map((b) => b.txIns.map((c) => c.txOutId))}</div>
+            <div>txOutIndex : {a.data.map((b) => b.txIns.map((c) => c.txOutIndex))}</div>
+            <div>address : {a.data.map((b) => b.txOuts.map((c) => c.address))}</div>
+            <div>amount : {a.data.map((b) => b.txOuts.map((c) => c.amount))}</div>
+            <div>인덱스 : {a.index}</div>
+            <div>해쉬 : {a.hash}</div>
+            <div>넌스 : {a.nonce}</div>
+            <div>시간 : {a.timestamp}</div>
+            <div>난이도 : {a.difficulty}</div>
+            <div>이전 해쉬 : {a.previousHash}</div>
           </div>
         ))}
     </Grid>

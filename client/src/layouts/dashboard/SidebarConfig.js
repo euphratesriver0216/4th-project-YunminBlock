@@ -21,11 +21,6 @@ const sidebarConfig = [
     title: 'NODE 2',
     path: '/dashboard/products',
     icon: getIcon(shoppingBagFill)
-  },
-  {
-    title: 'WALLET',
-    path: '/dashboard/user',
-    icon: getIcon(peopleFill)
   }
 ];
 

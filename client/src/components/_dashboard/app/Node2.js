@@ -3,6 +3,7 @@ import React, { useState, useRef, useEffect } from 'react';
 import { alpha, styled } from '@mui/material/styles';
 import { Card, Typography, Grid, Button, Input } from '@mui/material';
 import axios from 'axios';
+import User2 from '../../../pages/User2';
 
 // import React, { useEffect } from 'react';
 // utils
@@ -23,14 +24,7 @@ const RootStyle = styled(Card)(({ theme }) => ({
 const marginBottom = {
   marginBottom: '100px'
 };
-/**
- * alksjfla
- * sdfkaljdf
- * @dflkajdlfj
- * @dfkjasdfjksdf
- * ! min
- *
- */
+
 const IconWrapperStyle = styled('div')(({ theme }) => ({
   margin: 'auto',
   display: 'flex',
@@ -67,9 +61,15 @@ function useInterval(callback, delay) {
     }
   }, [delay]);
 }
-export default function AppWeeklySales() {
+export default function Node2() {
   const [blockData, setblockData] = useState('');
   const [chainBlocks, setChainBlocks] = useState([]);
+
+  const addPeers = async () => {
+    await axios
+      .post(`http://localhost:3002/addPeer`)
+      .then((req) => alert('6001포트와 연결합니다.'));
+  };
 
   const connectToHttp = async () => {
     await axios.get(`http://localhost:3002/Blocks`).then((req) => setChainBlocks(req.data));
@@ -77,7 +77,7 @@ export default function AppWeeklySales() {
   const blockMaker = async () => {
     const data = blockData;
     if (data.length === 0) {
-      return alert(`데이터를 넣으세요`);
+      return alert(`데이터를 넣어 주세요.`);
     }
     await axios
       .post(`http://localhost:3002/mineBlock`, { data: [data] })
@@ -105,10 +105,10 @@ export default function AppWeeklySales() {
   return (
     <Grid>
       <Typography variant="h3">NODE no.2</Typography>
-
       <Grid>
         <Button onClick={connectToHttp}>START TO MINEBLOCK</Button>
         {/* <div>{JSON.stringify(blockData)}</div> */}
+        <Button onClick={addPeers}>ADD PEERS</Button>
       </Grid>
 
       <Input
@@ -120,18 +120,22 @@ export default function AppWeeklySales() {
         value={blockData}
       />
       <Button onClick={blockMaker}>채굴</Button>
+      <User2 />
       {/* <div>{JSON.stringify(blockData)}</div> */}
       {chainBlocks &&
         chainBlocks.map((a) => (
-          <div style={marginBottom} key={a.header}>
-            <div>바디 : {a.body}</div>
-            <div>인덱스 : {a.header.index}</div>
-            <div>넌스 : {a.header.nonce}</div>
-            <div>버전 : {a.header.version}</div>
-            <div>시간 : {a.header.timestamp}</div>
-            <div>난이도 : {a.header.difficulty}</div>
-            <div>머클 루트 : {a.header.merkleRoot}</div>
-            <div>이전 해쉬 : {a.header.previousHash}</div>
+          <div style={marginBottom} key={a.index}>
+            <div>txId : {a.data.map((b) => b.id)}</div>
+            <div>txOutId : {a.data.map((b) => b.txIns.map((c) => c.txOutId))}</div>
+            <div>txOutIndex : {a.data.map((b) => b.txIns.map((c) => c.txOutIndex))}</div>
+            <div>address : {a.data.map((b) => b.txOuts.map((c) => c.address))}</div>
+            <div>amount : {a.data.map((b) => b.txOuts.map((c) => c.amount))}</div>
+            <div>인덱스 : {a.index}</div>
+            <div>해쉬 : {a.hash}</div>
+            <div>넌스 : {a.nonce}</div>
+            <div>시간 : {a.timestamp}</div>
+            <div>난이도 : {a.difficulty}</div>
+            <div>이전 해쉬 : {a.previousHash}</div>
           </div>
         ))}
     </Grid>
